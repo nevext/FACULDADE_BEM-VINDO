@@ -32,6 +32,12 @@ Introdução Inteligencia artificial falar
 
 Introdução a grade
 
+Lembrar dos convidados 
+
+Youtube.com/jhemerson
+
+
+
 
 
 
