@@ -23,8 +23,9 @@
 
       <nav class="nav" aria-label="Navegação principal">
         <a class="nav__link" href="#inicio">Início</a>
-        <a class="nav__link" href="#latij">Ligas</a>
+        <a class="nav__link" href="#quem-somos">Quem somos</a>
         <a class="nav__link" href="#sobre-ciesa">Sobre o CIESA</a>
+        <a class="nav__link" href="#informacoes-uteis">Informações úteis</a>
       </nav>
     </div>
   </header>
@@ -32,27 +33,20 @@
   <main class="main">
     <section id="inicio" class="splash" aria-label="Início"></section>
 
-    <section id="latij" class="latij-project" aria-label="Liga LATIJ">
-      <div class="latij-project__inner">
-        <div class="latij-project__media" aria-hidden="true"></div>
-        <div class="latij-project__content">
-          <h1 class="latij-project__title">LIGA LATIJ</h1>
-          <p class="latij-project__text" data-text="descricao_latij"></p>
-        </div>
-      </div>
-    </section>
-
-    <section id="chrono" class="section section--alt">
-      <div class="container split split--reverse">
-        <div class="split__media split__media--chrono" aria-hidden="true"></div>
-        <div class="split__content">
-          <p class="section__eyebrow">Projeto</p>
-          <h2 class="section__title">Chrono</h2>
-          <div class="section__accent" aria-hidden="true"></div>
-          <p class="section__text">
-            Um projeto voltado para organização, produtividade e experiências práticas.
-            Aqui você pode aprender, colaborar e construir algo real com outros alunos.
-          </p>
+    <section id="quem-somos" class="quem-somos-section" aria-label="Quem somos">
+      <div class="container quem-somos__inner">
+        <h2 class="section__title quem-somos__title">Quem somos?</h2>
+        <div class="quem-somos__grid">
+          <div class="liga-card liga-card--latij" data-liga="latij">
+            <div class="liga-card__media" aria-hidden="true"></div>
+            <h3 class="liga-card__title">LIGA LATIJ</h3>
+            <p class="liga-card__subtitle">Organização estudantil dedicada a eventos educacionais e culturais.</p>
+          </div>
+          <div class="liga-card liga-card--chrono" data-liga="chrono">
+            <div class="liga-card__media" aria-hidden="true"></div>
+            <h3 class="liga-card__title">Projeto Chrono</h3>
+            <p class="liga-card__subtitle">Focado em produtividade, organização e experiências práticas.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -60,17 +54,53 @@
     <section id="sobre-ciesa" class="section">
       <div class="container about">
         <div class="about__media">
-          <img src="Media/SVG/CIESA_PREDIO.svg" class="about__image" alt="Prédio do CIESA">
+          <img src="Media/SVG/CIESA_PREDIO.svg" class="about__image" id="ciesa-image-trigger" alt="Prédio do CIESA" style="cursor: pointer;">
         </div>
         <div class="about__content">
           <p class="section__eyebrow">Instituição</p>
           <h2 class="section__title">Sobre o CIESA</h2>
           <div class="section__accent" aria-hidden="true"></div>
-          <p class="section__text">
+          <p class="section__text about-text" id="about-description">
             O CIESA oferece um ambiente de aprendizagem moderno, com foco em formação prática,
             projetos e conexões com o mercado. Aqui, você encontra oportunidades para crescer
             academicamente e profissionalmente desde o primeiro período.
           </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="informacoes-uteis" class="section">
+      <div class="container about">
+        <div class="about__media">
+          <div class="about__image-placeholder" id="info-image-placeholder">
+            <!-- Espaço reservado para imagem - será adicionada posteriormente -->
+            <div class="placeholder-content">
+              <span>Imagem em breve</span>
+            </div>
+          </div>
+        </div>
+        <div class="about__content">
+          <p class="section__eyebrow">Recursos</p>
+          <h2 class="section__title">Informações úteis</h2>
+          <div class="section__accent" aria-hidden="true"></div>
+          <div class="info-list">
+            <div class="info-item" data-info="biblioteca" role="button" tabindex="0">
+              <h3 class="info-item__title">📚 Biblioteca</h3>
+              <p class="info-item__text">Acesso a livros, periódicos e recursos digitais 24/7</p>
+            </div>
+            <div class="info-item" data-info="laboratorio" role="button" tabindex="0">
+              <h3 class="info-item__title">💻 Laboratórios</h3>
+              <p class="info-item__text">Equipamentos modernos para prática profissional</p>
+            </div>
+            <div class="info-item" data-info="orientacao" role="button" tabindex="0">
+              <h3 class="info-item__title">🎓 Orientação</h3>
+              <p class="info-item__text">Suporte acadêmico e orientação de carreira</p>
+            </div>
+            <div class="info-item" data-info="atividades" role="button" tabindex="0">
+              <h3 class="info-item__title">🏃 Atividades</h3>
+              <p class="info-item__text">Esportes, cultura e eventos extracurriculares</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -84,8 +114,41 @@
 
   <script src="js/main.js" defer></script>
 
+  <!-- Modal Informações Úteis -->
+  <div id="info-modal" class="modal info-modal" role="dialog" aria-labelledby="info-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content info-modal__content">
+      <button class="modal__close info-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="info-modal-title" class="info-modal__title"></h2>
+      <div class="info-modal__description"></div>
+    </div>
+  </div>
+
+  <!-- Modal CIESA Galeria -->
+  <div id="ciesa-modal" class="modal ciesa-modal" role="dialog" aria-labelledby="ciesa-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content ciesa-modal__content">
+      <button class="modal__close ciesa-modal__close" aria-label="Fechar modal">&times;</button>
+      <div class="ciesa-modal__wrapper">
+        <div class="ciesa-modal__image-container">
+          <img src="Media/SVG/CIESA_PREDIO.svg" id="ciesa-modal-image" class="ciesa-modal__image" alt="Prédio do CIESA">
+        </div>
+        <div class="ciesa-modal__content-text">
+          <h2 id="ciesa-modal-title" class="ciesa-modal__title">Sobre</h2>
+          <p class="ciesa-modal__description">
+            O CIESA é uma instituição de excelência dedicada à formação acadêmica e profissional,
+            oferecendo um ambiente inovador onde teoria e prática se encontram. Com infraestrutura
+            moderna e corpo docente qualificado, preparamos nossos alunos para os desafios do
+            mercado de trabalho através de projetos práticos, conexões empresariais e uma educação
+            focada no desenvolvimento integral.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal LATIJ Detalhes -->
-  <div id="latij-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+  <div id="latij-modal" class="modal" role="dialog" aria-labelledby="modal-title">
     <div class="modal__overlay" aria-hidden="true"></div>
     <div class="modal__content">
       <button class="modal__close" aria-label="Fechar modal">&times;</button>
@@ -142,6 +205,72 @@
             <p class="modal-section__text">
               Novos membros apaixonados por educação e cultura. Pessoas criativas, organizadas e dispostas a contribuir
               com ideias inovadoras para nossos projetos.
+            </p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Chrono Detalhes -->
+  <div id="chrono-modal" class="modal" role="dialog" aria-labelledby="chrono-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content">
+      <button class="modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="chrono-modal-title" class="modal__title">Projeto Chrono - Detalhes</h2>
+
+      <div class="modal__sections">
+        <section class="modal-section">
+          <h3 class="modal-section__title">Objetivos</h3>
+          <div class="modal-section__content">
+            <div class="modal-section__image" data-image="chrono-objetivos"><!-- Placeholder para imagem --></div>
+            <p class="modal-section__text">
+              Desenvolver habilidades de organização e produtividade através de projetos práticos.
+              Incentivar a colaboração e o aprendizado contínuo entre estudantes.
+            </p>
+          </div>
+        </section>
+
+        <section class="modal-section">
+          <h3 class="modal-section__title">Feitos</h3>
+          <div class="modal-section__content">
+            <div class="modal-section__image" data-image="chrono-feitos"><!-- Placeholder para imagem --></div>
+            <p class="modal-section__text">
+              Implementamos ferramentas de gestão de tempo e realizamos workshops sobre produtividade.
+              Parcerias com empresas para estágios e projetos reais.
+            </p>
+          </div>
+        </section>
+
+        <section class="modal-section">
+          <h3 class="modal-section__title">Metas</h3>
+          <div class="modal-section__content">
+            <div class="modal-section__image" data-image="chrono-metas"><!-- Placeholder para imagem --></div>
+            <p class="modal-section__text">
+              Criar um app de produtividade interno e expandir para 50 participantes ativos.
+              Oferecer certificações em gestão de projetos.
+            </p>
+          </div>
+        </section>
+
+        <section class="modal-section">
+          <h3 class="modal-section__title">Membros</h3>
+          <div class="modal-section__content">
+            <div class="modal-section__image" data-image="chrono-membros"><!-- Placeholder para imagem --></div>
+            <p class="modal-section__text">
+              Equipe de 15 membros especializados em tecnologia e gestão.
+              Diversidade de habilidades para projetos inovadores.
+            </p>
+          </div>
+        </section>
+
+        <section class="modal-section">
+          <h3 class="modal-section__title">Buscamos por</h3>
+          <div class="modal-section__content">
+            <div class="modal-section__image" data-image="chrono-buscamos"><!-- Placeholder para imagem --></div>
+            <p class="modal-section__text">
+              Estudantes interessados em tecnologia, produtividade e inovação.
+              Pessoas motivadas a liderar projetos e aprender novas ferramentas.
             </p>
           </div>
         </section>
