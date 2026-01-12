@@ -169,7 +169,8 @@ body.bg-dimmed::before {
 #chrono,
 #sobre-ciesa,
 #informacoes-uteis,
-#eventos {
+#eventos,
+#ia-github {
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
