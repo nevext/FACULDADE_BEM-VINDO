@@ -937,6 +937,83 @@ body.bg-dimmed::before {
   }
 }
 
+/* Áreas de Atuação */
+.areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 32px 0;
+}
+
+.area-item {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.area-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.area-item__title {
+  margin: 0 0 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.area-item__text {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.areas-advice {
+  background: rgba(74, 144, 226, 0.1);
+  border: 1px solid rgba(74, 144, 226, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 32px;
+}
+
+.areas-advice .section__text {
+  margin: 0;
+  font-style: italic;
+}
+
+.areas-advice strong {
+  color: var(--accent-1);
+}
+
+/* Responsivo para Áreas de Atuação */
+@media (max-width: 768px) {
+  .areas-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .area-item {
+    padding: 20px;
+  }
+
+  .area-item__title {
+    font-size: 16px;
+  }
+
+  .area-item__text {
+    font-size: 13px;
+  }
+
+  .areas-advice {
+    padding: 16px;
+  }
+}
+
 /* Modal Informações Úteis */
 .info-modal {
   display: none;
@@ -1275,121 +1352,5 @@ body.bg-dimmed::before {
   
   .site-footer {
     padding: 40px 0 20px;
-  }
-}
-
-/* Áreas de Atuação */
-.areas-section {
-  background: rgba(5, 6, 8, 0.35);
-  backdrop-filter: blur(14px);
-  border-radius: 16px;
-  margin: 70px 20px;
-  padding: 50px 0;
-}
-
-.areas-header {
-  text-align: center;
-  margin-bottom: 50px;
-}
-
-.areas-intro {
-  margin-bottom: 40px;
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--text);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.areas-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  margin-bottom: 50px;
-}
-
-.area-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.area-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  border-color: var(--accent-1);
-}
-
-.area-card__title {
-  margin: 0 0 12px;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.area-card__text {
-  margin: 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-}
-
-.areas-conclusion {
-  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  border-radius: 12px;
-  padding: 32px;
-  text-align: center;
-  color: white;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.areas-conclusion .section__text {
-  color: white;
-  font-size: 16px;
-  font-weight: 500;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.areas-conclusion strong {
-  font-weight: 700;
-}
-
-/* Responsivo Áreas de Atuação */
-@media (max-width: 768px) {
-  .areas-section {
-    margin: 70px 10px;
-    padding: 30px 0;
-  }
-  
-  .areas-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-  
-  .area-card {
-    padding: 20px;
-  }
-  
-  .areas-conclusion {
-    padding: 24px;
-    margin: 0 20px;
-  }
-  
-  .areas-header {
-    margin-bottom: 30px;
-  }
-  
-  .areas-intro {
-    margin-bottom: 30px;
   }
 }
