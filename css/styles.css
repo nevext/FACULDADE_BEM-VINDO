@@ -1279,18 +1279,27 @@ body.bg-dimmed::before {
 }
 
 /* Áreas de Atuação */
+.areas-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
 .areas-intro {
   margin-bottom: 40px;
   font-size: 16px;
   font-weight: 500;
   color: var(--text);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
 }
 
 .areas-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
-  margin-bottom: 40px;
+  margin-bottom: 50px;
 }
 
 .area-card {
@@ -1299,6 +1308,7 @@ body.bg-dimmed::before {
   border-radius: 12px;
   padding: 24px;
   transition: all 0.3s ease;
+  cursor: pointer;
 }
 
 .area-card:hover {
@@ -1330,6 +1340,8 @@ body.bg-dimmed::before {
   padding: 32px;
   text-align: center;
   color: white;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .areas-conclusion .section__text {
@@ -1357,5 +1369,14 @@ body.bg-dimmed::before {
   
   .areas-conclusion {
     padding: 24px;
+    margin: 0 20px;
+  }
+  
+  .areas-header {
+    margin-bottom: 30px;
+  }
+  
+  .areas-intro {
+    margin-bottom: 30px;
   }
 }
