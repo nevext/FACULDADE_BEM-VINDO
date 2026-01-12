@@ -4,46 +4,38 @@ Aiming to be as simple as possible to facilitate reading and make the invitation
 
 Using only HTML and CSS, and maybe a little JS? LOL maybe
 
-Camisa  ()  + agenda capa dura + mensagem especial do dia 
+Shirt () + hardcover planner + special message of the day
 
-Camisa falar 
+Shirt - talk - no
 
-Comentar sobre introdução ao GIT
+Comment on introduction to GIT
 
-Falar das notas como funciona
+Talk about grades and how they work
 
-Falar da Jana
+Talk about Jana
 
-Feitos dos alunos
+Student achievements
 
-Eventos que já aconteram
+Past events
 
-Falar dos lab (alertar sobre o uso pc)
+Talk about labs (warn about computer use)
 
-Teste Fingers ele first dps karhut
+Fingers test (first and second time)
 
-Evento ocorre first time e second time (ultima semana de janeiro)
+Event occurs first and second time (last week of January)
 
-Coffe Break simples (em qual pausa)
+Simple coffee break (which break)
 
-Email institucional falar (tudo) 
+Institutional email - talk (everything)
 
-Introdução Inteligencia artificial falar 
+Introduction to Artificial Intelligence - talk
 
-Introdução a grade
+Introduction to the curriculum
 
-Lembrar dos convidados 
+Remember the guests
 
 Youtube.com/jhemerson
 
-Artigo importante
+Important article
 
-Desing desenhar bglh evento 
-
-
-
-
-
-
-
-
+Design - draw bglh event
