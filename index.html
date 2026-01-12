@@ -148,63 +148,13 @@
             Não sabe qual área seguir? Não se preocupe! O CIESA oferece diversas possibilidades de atuação profissional.
             Nossa formação é flexível e permite que você explore diferentes caminhos durante sua jornada acadêmica.
           </p>
-          
-          <div class="areas-grid">
-            <div class="area-item">
-              <h3 class="area-item__title">🎨 Design e Comunicação Visual</h3>
-              <p class="area-item__text">
-                Crie identidades visuais, desenvolva campanhas publicitárias e domine ferramentas de design digital.
-                Ideal para quem gosta de criatividade e expressão visual.
-              </p>
+
+          <div class="areas-trigger-card" id="areas-trigger" role="button" tabindex="0">
+            <div class="areas-trigger__content">
+              <h3 class="areas-trigger__title">🧭 Explorar Áreas de Atuação</h3>
+              <p class="areas-trigger__subtitle">Clique para descobrir todas as possibilidades profissionais do CIESA</p>
+              <div class="areas-trigger__icon">→</div>
             </div>
-            
-            <div class="area-item">
-              <h3 class="area-item__title">📱 Desenvolvimento Web e Mobile</h3>
-              <p class="area-item__text">
-                Construa websites, aplicativos e sistemas digitais. Aprenda programação, UX/UI e tecnologias emergentes.
-                Perfeito para mentes analíticas e solucionadores de problemas.
-              </p>
-            </div>
-            
-            <div class="area-item">
-              <h3 class="area-item__title">🎬 Produção Audiovisual</h3>
-              <p class="area-item__text">
-                Produza vídeos, documentários e conteúdo multimídia. Domine edição, roteiro e técnicas de produção.
-                Excelente para contadores de histórias e artistas visuais.
-              </p>
-            </div>
-            
-            <div class="area-item">
-              <h3 class="area-item__title">📊 Gestão e Marketing Digital</h3>
-              <p class="area-item__text">
-                Gerencie projetos, desenvolva estratégias de marketing e analise dados. Aprenda sobre empreendedorismo
-                e comunicação corporativa. Ideal para líderes e estrategistas.
-              </p>
-            </div>
-            
-            <div class="area-item">
-              <h3 class="area-item__title">🎭 Artes e Cultura</h3>
-              <p class="area-item__text">
-                Explore fotografia, artes plásticas e produção cultural. Desenvolva seu olhar artístico e habilidades
-                criativas. Perfeito para almas artísticas e apreciadores da cultura.
-              </p>
-            </div>
-            
-            <div class="area-item">
-              <h3 class="area-item__title">🔄 Interdisciplinar</h3>
-              <p class="area-item__text">
-                Combine diferentes áreas do conhecimento. Nossa grade curricular flexível permite que você
-                misture interesses e crie seu próprio caminho profissional único.
-              </p>
-            </div>
-          </div>
-          
-          <div class="areas-advice">
-            <p class="section__text">
-              <strong>Dica:</strong> Durante o primeiro período, você terá contato com todas as áreas através de disciplinas
-              introdutórias. Isso te ajudará a descobrir suas verdadeiras paixões e tomar decisões mais conscientes sobre
-              sua trajetória profissional.
-            </p>
           </div>
         </div>
       </div>
@@ -289,6 +239,72 @@
       <button class="modal__close info-modal__close" aria-label="Fechar modal">&times;</button>
       <h2 id="info-modal-title" class="info-modal__title"></h2>
       <div class="info-modal__description"></div>
+    </div>
+  </div>
+
+  <!-- Modal Áreas de Atuação -->
+  <div id="areas-modal" class="modal areas-modal" role="dialog" aria-labelledby="areas-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content areas-modal__content">
+      <button class="modal__close areas-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="areas-modal-title" class="areas-modal__title">Áreas de Atuação no CIESA</h2>
+
+      <div class="areas-modal__intro">
+        <p class="areas-modal__intro-text">
+          Durante o primeiro período, você terá contato com todas as áreas através de disciplinas introdutórias.
+          Isso te ajudará a descobrir suas verdadeiras paixões e tomar decisões mais conscientes sobre sua trajetória profissional.
+        </p>
+      </div>
+
+      <div class="areas-modal__grid">
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">🎨 Design e Comunicação Visual</h3>
+          <p class="area-modal-item__text">
+            Crie identidades visuais, desenvolva campanhas publicitárias e domine ferramentas de design digital.
+            Ideal para quem gosta de criatividade e expressão visual.
+          </p>
+        </div>
+
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">📱 Desenvolvimento Web e Mobile</h3>
+          <p class="area-modal-item__text">
+            Construa websites, aplicativos e sistemas digitais. Aprenda programação, UX/UI e tecnologias emergentes.
+            Perfeito para mentes analíticas e solucionadores de problemas.
+          </p>
+        </div>
+
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">🎬 Produção Audiovisual</h3>
+          <p class="area-modal-item__text">
+            Produza vídeos, documentários e conteúdo multimídia. Domine edição, roteiro e técnicas de produção.
+            Excelente para contadores de histórias e artistas visuais.
+          </p>
+        </div>
+
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">📊 Gestão e Marketing Digital</h3>
+          <p class="area-modal-item__text">
+            Gerencie projetos, desenvolva estratégias de marketing e analise dados. Aprenda sobre empreendedorismo
+            e comunicação corporativa. Ideal para líderes e estrategistas.
+          </p>
+        </div>
+
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">🎭 Artes e Cultura</h3>
+          <p class="area-modal-item__text">
+            Explore fotografia, artes plásticas e produção cultural. Desenvolva seu olhar artístico e habilidades
+            criativas. Perfeito para almas artísticas e apreciadores da cultura.
+          </p>
+        </div>
+
+        <div class="area-modal-item">
+          <h3 class="area-modal-item__title">🔄 Interdisciplinar</h3>
+          <p class="area-modal-item__text">
+            Combine diferentes áreas do conhecimento. Nossa grade curricular flexível permite que você
+            misture interesses e crie seu próprio caminho profissional único.
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 

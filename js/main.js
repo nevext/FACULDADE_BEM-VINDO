@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalCIESA();
 	configurarModalInfos();
 	configurarModalEventos();
+	configurarModalAreas();
 });
 
 function configurarEfeitoCaracteres() {
@@ -451,6 +452,41 @@ function configurarModalInfos() {
 				abrirModal(info);
 			}
 		});
+	});
+
+	closeBtn.addEventListener("click", fecharModal);
+	overlay.addEventListener("click", fecharModal);
+
+	// Fechar com ESC
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+			fecharModal();
+		}
+	});
+}
+
+function configurarModalAreas() {
+	const modal = document.getElementById("areas-modal");
+	const trigger = document.getElementById("areas-trigger");
+	const closeBtn = modal.querySelector(".areas-modal__close");
+	const overlay = modal.querySelector(".modal__overlay");
+
+	function abrirModal() {
+		modal.classList.add("modal--open");
+		document.body.style.overflow = "hidden";
+	}
+
+	function fecharModal() {
+		modal.classList.remove("modal--open");
+		document.body.style.overflow = "";
+	}
+
+	trigger.addEventListener("click", abrirModal);
+	trigger.addEventListener("keydown", (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			abrirModal();
+		}
 	});
 
 	closeBtn.addEventListener("click", fecharModal);
