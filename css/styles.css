@@ -309,6 +309,42 @@ body.bg-dimmed::before {
   line-height: 1.6;
 }
 
+/* Video Card */
+.video-card {
+  margin-top: 40px;
+  padding: 30px;
+  border-radius: var(--radius-lg);
+  background: var(--panel-strong);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.video-card__title {
+  margin: 0 0 20px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text);
+}
+
+.video-card__container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.video-card__iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-md);
+}
+
 /* Seções */
 .section {
   padding: 400px 0;
