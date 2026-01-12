@@ -23,6 +23,55 @@ const infosUteis = {
 	}
 };
 
+const eventosData = {
+	ciesa: [
+		{
+			titulo: "Workshop de Tecnologia",
+			data: "15 de Janeiro - 14h",
+			descricao: "Palestra sobre as tendências de desenvolvimento web em 2025. Ministrado por especialistas da indústria."
+		},
+		{
+			titulo: "Fórum de Carreiras",
+			data: "22 de Janeiro - 10h",
+			descricao: "Conheça profissionais de diversas áreas e descubra oportunidades de estágio e emprego."
+		},
+		{
+			titulo: "Hackathon CIESA 2025",
+			data: "28 de Janeiro a 30 de Janeiro",
+			descricao: "Evento de 48 horas para desenvolvimento de projetos inovadores. Prêmios para os melhores trabalhos."
+		}
+	],
+	parceria: [
+		{
+			titulo: "Tech Summit Brasil",
+			data: "10 de Fevereiro - 09h",
+			descricao: "Grande conferência de tecnologia com empresas líderes do mercado. Ingresso facilitado para alunos CIESA."
+		},
+		{
+			titulo: "Design Conference 2025",
+			data: "17 de Fevereiro - 14h",
+			descricao: "Evento de design e UX em parceria com agências reconhecidas. Inscrições abertas para nossa comunidade."
+		}
+	],
+	indicados: [
+		{
+			titulo: "Python Bootcamp Online",
+			data: "Inscrições abertas",
+			descricao: "Programa intensivo de Python para iniciantes e intermediários. Certificado reconhecido no mercado."
+		},
+		{
+			titulo: "Certificação em AWS",
+			data: "Próxima turma em Fevereiro",
+			descricao: "Prepare-se para certificação AWS. Diversos cursos e laboratórios práticos disponíveis."
+		},
+		{
+			titulo: "Webinar: Soft Skills para Profissionais",
+			data: "19 de Janeiro - 19h",
+			descricao: "Desenvolva habilidades essenciais como comunicação, liderança e trabalho em equipe."
+		}
+	]
+};
+
 
 function aplicarTextos() {
 	const elementos = document.querySelectorAll("[data-text]");
@@ -40,7 +89,7 @@ function configurarNavegacao() {
 	const links = document.querySelectorAll(".nav__link");
 
 	function aplicarOverlayPorHash(hash) {
-    if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis") {
+    if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis" || hash === "#eventos") {
 			document.body.classList.add("bg-dimmed");
 			return;
 		}
@@ -139,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarEfeitoCaracteres();
 	configurarModalCIESA();
 	configurarModalInfos();
+	configurarModalEventos();
 });
 
 function configurarEfeitoCaracteres() {
@@ -230,6 +280,87 @@ function configurarModalCIESA() {
 	});
 }
 
+function configurarModalEventos() {
+	const modal = document.getElementById("eventos-modal");
+	const trigger = document.getElementById("eventos-trigger");
+	const closeBtn = modal.querySelector(".eventos-modal__close");
+	const overlay = modal.querySelector(".modal__overlay");
+	const tabs = modal.querySelectorAll(".eventos-tab");
+	const panels = modal.querySelectorAll(".eventos-panel");
+
+	function renderizarEventos() {
+		const ciesaList = modal.querySelector("#eventos-ciesa-list");
+		const parceriaList = modal.querySelector("#eventos-parceria-list");
+		const indicadosList = modal.querySelector("#eventos-indicados-list");
+
+		function renderEventos(container, tipo) {
+			container.innerHTML = "";
+			const eventos = eventosData[tipo];
+
+			if (eventos.length === 0) {
+				container.innerHTML = '<div class="evento-item evento-item--empty">Em breve, mais eventos!</div>';
+				return;
+			}
+
+			eventos.forEach((evento) => {
+				const div = document.createElement("div");
+				div.className = "evento-item";
+				div.innerHTML = `
+					<div class="evento-item__date">${evento.data}</div>
+					<h3 class="evento-item__title">${evento.titulo}</h3>
+					<p class="evento-item__description">${evento.descricao}</p>
+				`;
+				container.appendChild(div);
+			});
+		}
+
+		renderEventos(ciesaList, "ciesa");
+		renderEventos(parceriaList, "parceria");
+		renderEventos(indicadosList, "indicados");
+	}
+
+	function abrirModal() {
+		modal.classList.add("modal--open");
+		document.body.style.overflow = "hidden";
+		renderizarEventos();
+	}
+
+	function fecharModal() {
+		modal.classList.remove("modal--open");
+		document.body.style.overflow = "";
+	}
+
+	function trocarAba(novaAba) {
+		// Remover ativo de todas as abas e painéis
+		tabs.forEach((tab) => tab.classList.remove("eventos-tab--active"));
+		panels.forEach((panel) => panel.classList.remove("eventos-panel--active"));
+
+		// Ativar a nova aba e painel
+		const abaBotao = modal.querySelector(`[data-tab="${novaAba}"]`);
+		const painelDiv = modal.querySelector(`[data-panel="${novaAba}"]`);
+
+		if (abaBotao) abaBotao.classList.add("eventos-tab--active");
+		if (painelDiv) painelDiv.classList.add("eventos-panel--active");
+	}
+
+	trigger.addEventListener("click", abrirModal);
+	closeBtn.addEventListener("click", fecharModal);
+	overlay.addEventListener("click", fecharModal);
+
+	tabs.forEach((tab) => {
+		tab.addEventListener("click", () => {
+			const novaAba = tab.getAttribute("data-tab");
+			trocarAba(novaAba);
+		});
+	});
+
+	// Fechar com ESC
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+			fecharModal();
+		}
+	});
+}
 function configurarModalInfos() {
 	const modal = document.getElementById("info-modal");
 	const infoItems = document.querySelectorAll(".info-item");

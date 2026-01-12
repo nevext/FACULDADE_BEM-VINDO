@@ -26,6 +26,7 @@
         <a class="nav__link" href="#quem-somos">Quem somos</a>
         <a class="nav__link" href="#sobre-ciesa">Sobre o CIESA</a>
         <a class="nav__link" href="#informacoes-uteis">Informações úteis</a>
+        <a class="nav__link" href="#eventos">Eventos</a>
       </nav>
     </div>
   </header>
@@ -104,6 +105,29 @@
         </div>
       </div>
     </section>
+
+    <section id="eventos" class="section">
+      <div class="container about">
+        <div class="about__media">
+          <div class="about__image-placeholder" id="eventos-image-placeholder" style="cursor: pointer;">
+            <!-- Espaço reservado para imagem - será adicionada posteriormente -->
+            <div class="placeholder-content">
+              <span>Imagem em breve</span>
+            </div>
+          </div>
+        </div>
+        <div class="about__content">
+          <p class="section__eyebrow">Agenda</p>
+          <h2 class="section__title">Eventos</h2>
+          <div class="section__accent" aria-hidden="true"></div>
+          <p class="section__text">
+            Conheça os eventos promovidos pelo CIESA e seus parceiros. Esteja sempre atualizado sobre as oportunidades 
+            de aprendizado, networking e lazer que transformam sua experiência acadêmica.
+          </p>
+          <button class="cta-button" id="eventos-trigger">Explorar Eventos</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
@@ -121,6 +145,39 @@
       <button class="modal__close info-modal__close" aria-label="Fechar modal">&times;</button>
       <h2 id="info-modal-title" class="info-modal__title"></h2>
       <div class="info-modal__description"></div>
+    </div>
+  </div>
+
+  <!-- Modal Eventos -->
+  <div id="eventos-modal" class="modal eventos-modal" role="dialog" aria-labelledby="eventos-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content eventos-modal__content">
+      <button class="modal__close eventos-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="eventos-modal-title" class="eventos-modal__title">Eventos</h2>
+      
+      <div class="eventos-tabs">
+        <button class="eventos-tab eventos-tab--active" data-tab="ciesa">
+          🎓 Eventos CIESA
+        </button>
+        <button class="eventos-tab" data-tab="parceria">
+          🤝 Parcerias
+        </button>
+        <button class="eventos-tab" data-tab="indicados">
+          ⭐ Indicados
+        </button>
+      </div>
+
+      <div class="eventos-content">
+        <div class="eventos-panel eventos-panel--active" data-panel="ciesa">
+          <div class="eventos-list" id="eventos-ciesa-list"></div>
+        </div>
+        <div class="eventos-panel" data-panel="parceria">
+          <div class="eventos-list" id="eventos-parceria-list"></div>
+        </div>
+        <div class="eventos-panel" data-panel="indicados">
+          <div class="eventos-list" id="eventos-indicados-list"></div>
+        </div>
+      </div>
     </div>
   </div>
 

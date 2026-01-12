@@ -168,7 +168,8 @@ body.bg-dimmed::before {
 #quem-somos,
 #chrono,
 #sobre-ciesa,
-#informacoes-uteis {
+#informacoes-uteis,
+#eventos {
   scroll-margin-top: calc(var(--header-h) + 16px);
 }
 
@@ -934,4 +935,193 @@ body.bg-dimmed::before {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.8;
+}
+
+/* CTA Button */
+.cta-button {
+  margin-top: 20px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: none;
+  color: var(--bg);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(255, 221, 85, 0.25);
+}/* Modal Eventos */
+.eventos-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+}
+
+.eventos-modal.modal--open {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eventos-modal__content {
+  position: relative;
+  width: min(90vw, 800px);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 40px;
+  margin: 20px;
+  animation: slideUp 300ms ease;
+}
+
+.eventos-modal__close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 32px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 160ms ease;
+}
+
+.eventos-modal__close:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.eventos-modal__title {
+  margin: 0 0 30px;
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: 32px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Abas de Eventos */
+.eventos-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.eventos-tab {
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.eventos-tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.eventos-tab--active {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-color: transparent;
+  color: var(--bg);
+}
+
+/* Conteúdo de Eventos */
+.eventos-content {
+  position: relative;
+}
+
+.eventos-panel {
+  display: none;
+  animation: fadeIn 300ms ease;
+}
+
+.eventos-panel--active {
+  display: block;
+}
+
+.eventos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.evento-item {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+.evento-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.evento-item__title {
+  margin: 0 0 8px;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.evento-item__date {
+  margin: 0 0 8px;
+  color: var(--accent-1);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.evento-item__description {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.evento-item--empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--muted);
+}
+
+/* Responsivo Eventos */
+@media (max-width: 600px) {
+  .eventos-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .eventos-modal__content {
+    padding: 24px;
+  }
+
+  .eventos-modal__title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 }
