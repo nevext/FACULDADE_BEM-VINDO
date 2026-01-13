@@ -429,19 +429,14 @@ const eventosData = {
 	],
 	indicados: [
 		{
-			titulo: "Python Bootcamp Online",
-			data: "Inscrições abertas",
-			descricao: "Programa intensivo de Python para iniciantes e intermediários. Certificado reconhecido no mercado."
+			titulo: "Ocean - Programa de Desenvolvimento",
+			data: "Sempre indicado",
+			descricao: "Programa renomado de desenvolvimento profissional e treinamento técnico. Sempre é indicado pelos coordenadores como oportunidade de excelência em capacitação."
 		},
 		{
-			titulo: "Certificação em AWS",
-			data: "Próxima turma em Fevereiro",
-			descricao: "Prepare-se para certificação AWS. Diversos cursos e laboratórios práticos disponíveis."
-		},
-		{
-			titulo: "Webinar: Soft Skills para Profissionais",
-			data: "19 de Janeiro - 19h",
-			descricao: "Desenvolva habilidades essenciais como comunicação, liderança e trabalho em equipe."
+			titulo: "Bootcamp - Programação Intensiva",
+			data: "Turmas regulares",
+			descricao: "Programa intensivo de desenvolvimento de software. Aprenda as tecnologias mais demandadas no mercado em um formato acelerado com mentoria especializada."
 		}
 	]
 };
