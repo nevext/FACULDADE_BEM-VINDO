@@ -637,7 +637,7 @@ function configurarNavegacao() {
 			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 			const visibilityRatio = visibleHeight / rect.height;
 
-			if (visibilityRatio > maxVisibility && visibilityRatio > 0.3) { // Pelo menos 30% visível
+			if (visibilityRatio > maxVisibility && visibilityRatio > 0.1) { // Pelo menos 10% visível
 				maxVisibility = visibilityRatio;
 				secaoAtiva = secao;
 			}
@@ -665,14 +665,31 @@ function configurarNavegacao() {
 		let targetSection = null;
 		let minDistance = Infinity;
 
-		// Encontrar a seção mais próxima do topo visível da viewport (mais sensível)
+		// Encontrar a seção mais próxima considerando a direção do scroll
 		for (const secao of secoes) {
 			const rect = secao.getBoundingClientRect();
 			const secaoTop = rect.top + scrollY;
-			const viewportTop = scrollY + headerHeight + 100; // Mais sensível ao topo visível
-			const distance = Math.abs(viewportTop - secaoTop);
+			const viewportCenter = scrollY + windowHeight / 2;
+			const secaoCenter = secaoTop + rect.height / 2;
+			const distance = Math.abs(viewportCenter - secaoCenter);
 
-			if (distance < minDistance) {
+			// Se está rolando para baixo, priorizar seções abaixo
+			// Se está rolando para cima, priorizar seções acima
+			let shouldConsider = true;
+			if (scrollDirection > 0 && secaoCenter < viewportCenter - 100) {
+				shouldConsider = false; // Ignorar seções muito acima quando rolando para baixo
+			} else if (scrollDirection < 0 && secaoCenter > viewportCenter + 100) {
+				shouldConsider = false; // Ignorar seções muito abaixo quando rolando para cima
+			}
+
+			// Priorizar seções que estão mais visíveis (mesmo que parcialmente)
+			const visibleTop = Math.max(secaoTop, scrollY + headerHeight);
+			const visibleBottom = Math.min(secaoTop + rect.height, scrollY + windowHeight);
+			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+			const visibilityRatio = visibleHeight / rect.height;
+
+			// Se a seção está pelo menos 5% visível e deve ser considerada
+			if (shouldConsider && visibilityRatio > 0.05 && distance < minDistance) {
 				minDistance = distance;
 				targetSection = secao;
 			}
@@ -681,40 +698,14 @@ function configurarNavegacao() {
 		// Se encontrou uma seção alvo, fazer scroll suave para ela
 		if (targetSection) {
 			const rect = targetSection.getBoundingClientRect();
-			const targetTop = rect.top + scrollY - headerHeight - 50; // Centralização mais suave
+			const targetTop = rect.top + scrollY - headerHeight - (windowHeight - rect.height) / 2;
 
-			// Movimento mais suave e gradual
-			const currentScroll = window.scrollY;
-			const distance = targetTop - currentScroll;
-			const duration = Math.min(800, Math.abs(distance) * 2); // Duração baseada na distância
-
-			smoothScrollTo(targetTop, duration);
+			// Movimento mais suave e rápido
+			window.scrollTo({
+				top: Math.max(0, targetTop),
+				behavior: 'smooth'
+			});
 		}
-	}
-
-	// Função de scroll suave customizada para mais controle
-	function smoothScrollTo(targetY, duration = 400) {
-		const startY = window.scrollY;
-		const distance = targetY - startY;
-		const startTime = performance.now();
-
-		function easeOutCubic(t) {
-			return 1 - Math.pow(1 - t, 3);
-		}
-
-		function animation(currentTime) {
-			const elapsed = currentTime - startTime;
-			const progress = Math.min(elapsed / duration, 1);
-			const easedProgress = easeOutCubic(progress);
-
-			window.scrollTo(0, startY + distance * easedProgress);
-
-			if (progress < 1) {
-				requestAnimationFrame(animation);
-			}
-		}
-
-		requestAnimationFrame(animation);
 	}
 
 	// Função throttled para otimizar performance no scroll
@@ -722,12 +713,10 @@ function configurarNavegacao() {
 		if (scrollTimeout) return;
 
 		const currentScrollY = window.scrollY;
-		const scrollDelta = Math.abs(currentScrollY - lastScrollY);
-
 		scrollDirection = currentScrollY > lastScrollY ? 1 : -1; // 1 = descendo, -1 = subindo
 		lastScrollY = currentScrollY;
 
-		if (!isScrolling && scrollDelta > 5) { // Ativar com movimento mínimo de 5px
+		if (!isScrolling) {
 			isScrolling = true;
 
 			// Cancelar snap anterior se existir
@@ -735,19 +724,17 @@ function configurarNavegacao() {
 				clearTimeout(window.snapTimeout);
 			}
 
-			// Snap mais frequente durante o scroll
-			snapToNearestSection();
-
-			// Reset do estado após um curto período
-			setTimeout(() => {
+			// Agendar snap automático após parar de rolar
+			window.snapTimeout = setTimeout(() => {
+				snapToNearestSection();
 				isScrolling = false;
-			}, 100);
+			}, 50); // Espera apenas 50ms após parar de rolar
 		}
 
 		scrollTimeout = setTimeout(() => {
 			atualizarNavAtivo();
 			scrollTimeout = null;
-		}, 50); // Atualização mais frequente do nav ativo
+		}, 100);
 	}
 
 	for (const link of links) {
