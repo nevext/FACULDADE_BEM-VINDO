@@ -316,7 +316,7 @@
       <div class="eventos-modal__grid">
         <div class="eventos-item" data-eventos="ciesa" role="button" tabindex="0">
           <h3 class="eventos-item__title">🎓 Eventos do CIESA</h3>
-          <p class="eventos-item__text">Workshop de Tecnologia, Fórum de Carreiras e Hackathon</p>
+          <p class="eventos-item__text">Semana Acadêmica, Projetos e Atividades</p>
         </div>
         <div class="eventos-item" data-eventos="parceria" role="button" tabindex="0">
           <h3 class="eventos-item__title">🤝 Eventos de Parcerias</h3>
@@ -328,6 +328,18 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Modal Detalhes de Eventos -->
+  <div id="eventos-detalhes-modal" class="modal eventos-detalhes-modal" role="dialog" aria-labelledby="eventos-detalhes-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content eventos-detalhes-modal__content">
+      <button class="modal__close eventos-detalhes-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="eventos-detalhes-title" class="eventos-detalhes-modal__title">Título</h2>
+      <p id="eventos-detalhes-subtitle" class="eventos-detalhes-modal__subtitle">Descrição</p>
+      <div id="eventos-detalhes-lista" class="eventos-detalhes-lista"></div>
+    </div>
+  </div>
   </div>
 
   <!-- Modal Áreas de Atuação -->

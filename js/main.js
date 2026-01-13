@@ -385,19 +385,29 @@ const infosUteis = {
 const eventosData = {
 	ciesa: [
 		{
-			titulo: "Workshop de Tecnologia",
-			data: "15 de Janeiro - 14h",
-			descricao: "Palestra sobre as tendências de desenvolvimento web em 2025. Ministrado por especialistas da indústria."
+			titulo: "Semana Acadêmica - Semana da Tecnologia",
+			data: "Anualmente",
+			descricao: "Evento onde todas as turmas do CIESA apresentam seus projetos integradores. Uma semana de inovação, networking e celebração do conhecimento construído ao longo do período. Apresentações, palestras e demonstrações práticas."
 		},
 		{
-			titulo: "Fórum de Carreiras",
-			data: "22 de Janeiro - 10h",
-			descricao: "Conheça profissionais de diversas áreas e descubra oportunidades de estágio e emprego."
+			titulo: "Projetos de Extensão",
+			data: "Contínuos",
+			descricao: "Projetos desenvolvidos pelos alunos em parceria com a comunidade. Oportunidades de aplicar conhecimento prático e contribuir com a sociedade. Participação voluntária com reconhecimento acadêmico."
 		},
 		{
-			titulo: "Hackathon CIESA 2025",
-			data: "28 de Janeiro a 30 de Janeiro",
-			descricao: "Evento de 48 horas para desenvolvimento de projetos inovadores. Prêmios para os melhores trabalhos."
+			titulo: "Projetos Integradores",
+			data: "Final de cada período",
+			descricao: "Projetos que integram conhecimentos de múltiplas disciplinas. Os alunos trabalham em equipes para resolver problemas reais e inovadores, simulando experiências do mercado profissional."
+		},
+		{
+			titulo: "Halloween - Festa da LATIJ",
+			data: "31 de Outubro",
+			descricao: "Evento tradicional organizado pela LATIJ (Liga Acadêmica de Tecnologia, Inovação e Jogo). Uma festa temática com atividades, competições e prêmios para a comunidade CIESA."
+		},
+		{
+			titulo: "Aulas no Sábado - Conteúdos Extras",
+			data: "Aos sábados - Agendado",
+			descricao: "Aulas complementares aos sábados para aprofundamento em conteúdos específicos. Oportunidade de explorar tópicos avançados e tirar dúvidas em um formato mais descontraído."
 		}
 	],
 	parceria: [
@@ -869,11 +879,33 @@ function configurarModalOQueTeremosHoje() {
 function configurarModalEventos() {
 	const modal = document.getElementById("eventos-modal");
 	const trigger = document.getElementById("eventos-trigger");
+	const detalhesModal = document.getElementById("eventos-detalhes-modal");
+	const detalhesCloseBtn = detalhesModal?.querySelector(".eventos-detalhes-modal__close");
+	const detalhesOverlay = detalhesModal?.querySelector(".modal__overlay");
+	const detalhesTitle = document.getElementById("eventos-detalhes-title");
+	const detalhesSubtitle = document.getElementById("eventos-detalhes-subtitle");
+	const detalhesList = document.getElementById("eventos-detalhes-lista");
+	
 	if (!modal || !trigger) return;
 	const closeBtn = modal.querySelector(".eventos-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
 	const eventosItems = modal.querySelectorAll(".eventos-item");
 	if (!closeBtn || !overlay) return;
+
+	const detalhesMeta = {
+		ciesa: {
+			titulo: "🎓 Eventos do CIESA",
+			subtitulo: "Eventos organizados pelo próprio CIESA para seu desenvolvimento acadêmico e profissional."
+		},
+		parceria: {
+			titulo: "🤝 Eventos de Parcerias",
+			subtitulo: "Eventos que o CIESA consegue para os alunos através de parcerias com instituições e empresas."
+		},
+		indicados: {
+			titulo: "⭐ Eventos Indicados",
+			subtitulo: "Eventos que acontecem em Manaus e são indicados para ganhar mais conhecimento, networking e experiências."
+		}
+	};
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
@@ -882,7 +914,46 @@ function configurarModalEventos() {
 
 	function fecharModal() {
 		modal.classList.remove("modal--open");
+		fecharDetalhes();
 		document.body.style.overflow = "";
+	}
+
+	function fecharDetalhes() {
+		if (detalhesModal) {
+			detalhesModal.classList.remove("modal--open");
+		}
+	}
+
+	function abrirDetalhesEventos(tipo) {
+		if (!tipo || !(tipo in eventosData)) return;
+
+		const meta = detalhesMeta[tipo] || { titulo: "Eventos", subtitulo: "" };
+		detalhesTitle.textContent = meta.titulo;
+		detalhesSubtitle.textContent = meta.subtitulo;
+
+		// Renderizar eventos
+		detalhesList.innerHTML = "";
+		const eventos = eventosData[tipo] || [];
+
+		if (eventos.length === 0) {
+			detalhesList.innerHTML = '<div class="evento-detalhe evento-detalhe--empty">Em breve, mais eventos!</div>';
+		} else {
+			eventos.forEach((evento) => {
+				const div = document.createElement("div");
+				div.className = "evento-detalhe";
+				div.innerHTML = `
+					<div class="evento-detalhe__data">${evento.data}</div>
+					<h3 class="evento-detalhe__titulo">${evento.titulo}</h3>
+					<p class="evento-detalhe__descricao">${evento.descricao}</p>
+				`;
+				detalhesList.appendChild(div);
+			});
+		}
+
+		if (detalhesModal) {
+			detalhesModal.classList.add("modal--open");
+			document.body.style.overflow = "hidden";
+		}
 	}
 
 	trigger.addEventListener("click", abrirModal);
@@ -895,21 +966,35 @@ function configurarModalEventos() {
 
 	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
+	
+	if (detalhesCloseBtn && detalhesOverlay) {
+		detalhesCloseBtn.addEventListener("click", fecharDetalhes);
+		detalhesOverlay.addEventListener("click", fecharDetalhes);
+	}
 
 	// Adicionar eventos aos cards
 	eventosItems.forEach((item) => {
-		item.addEventListener("click", fecharModal);
+		item.addEventListener("click", () => {
+			const tipo = item.getAttribute("data-eventos");
+			abrirDetalhesEventos(tipo);
+		});
 		item.addEventListener("keydown", (event) => {
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
-				fecharModal();
+				const tipo = item.getAttribute("data-eventos");
+				abrirDetalhesEventos(tipo);
 			}
 		});
 	});
 
 	// Fechar com ESC
 	document.addEventListener("keydown", (event) => {
-		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+		if (event.key !== "Escape") return;
+		if (detalhesModal && detalhesModal.classList.contains("modal--open")) {
+			fecharDetalhes();
+			return;
+		}
+		if (modal.classList.contains("modal--open")) {
 			fecharModal();
 		}
 	});
