@@ -3552,19 +3552,22 @@ body.bg-dimmed::before {
 
 .footer__bottom {
   border-top: 1px solid var(--border);
+.footer__bottom {
   padding-top: 16px;
   width: 100%;
   text-align: left;
+  border-top: 2px solid #1FD084;
+  padding-top: 20px;
 }
 
 .footer__copyright {
   margin: 0;
-  color: #10B981;
+  color: #00FF66;
   font-size: 13px;
 }
 
 .footer__credit {
-  color: #3B82F6;
+  color: #006FFF;
   font-weight: 600;
 }
 
