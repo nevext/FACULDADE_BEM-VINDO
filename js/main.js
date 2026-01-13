@@ -584,6 +584,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalCIESA();
 	configurarModalInformacoesUteis();
 	configurarModalInfos();
+	configurarModalEventos();
 	configurarModalAreas();
 	configurarModalOQueTeremosHoje();
 	configurarModalEquipe();
@@ -856,6 +857,55 @@ function configurarModalOQueTeremosHoje() {
 	trigger.addEventListener("click", abrirModal);
 	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
+
+	// Fechar com ESC
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+			fecharModal();
+		}
+	});
+}
+
+function configurarModalEventos() {
+	const modal = document.getElementById("eventos-modal");
+	const trigger = document.getElementById("eventos-trigger");
+	if (!modal || !trigger) return;
+	const closeBtn = modal.querySelector(".eventos-modal__close");
+	const overlay = modal.querySelector(".modal__overlay");
+	const eventosItems = modal.querySelectorAll(".eventos-item");
+	if (!closeBtn || !overlay) return;
+
+	function abrirModal() {
+		modal.classList.add("modal--open");
+		document.body.style.overflow = "hidden";
+	}
+
+	function fecharModal() {
+		modal.classList.remove("modal--open");
+		document.body.style.overflow = "";
+	}
+
+	trigger.addEventListener("click", abrirModal);
+	trigger.addEventListener("keydown", (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			abrirModal();
+		}
+	});
+
+	closeBtn.addEventListener("click", fecharModal);
+	overlay.addEventListener("click", fecharModal);
+
+	// Adicionar eventos aos cards
+	eventosItems.forEach((item) => {
+		item.addEventListener("click", fecharModal);
+		item.addEventListener("keydown", (event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				fecharModal();
+			}
+		});
+	});
 
 	// Fechar com ESC
 	document.addEventListener("keydown", (event) => {

@@ -1157,6 +1157,67 @@ body.bg-dimmed::before {
 	letter-spacing: -0.5px;
 }
 
+/* Eventos Trigger Card */
+.eventos-trigger-card {
+	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05));
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 24px;
+	padding: 32px;
+	cursor: pointer;
+	transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	margin-top: 32px;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.eventos-trigger-card::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: radial-gradient(600px at 50% 50%, rgba(255, 255, 255, 0.1), transparent 80%);
+	opacity: 0;
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+}
+
+.eventos-trigger-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+	border-color: rgba(255, 255, 255, 0.2);
+}
+
+.eventos-trigger-card:hover::before {
+	opacity: 1;
+}
+
+.eventos-trigger-card:focus-visible {
+	outline: 2px solid rgba(255, 255, 255, 0.5);
+	outline-offset: 3px;
+}
+
+.eventos-trigger__content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+}
+
+.eventos-trigger__title {
+	margin: 0;
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.2;
+	letter-spacing: -0.5px;
+}
+
 .informacoes-uteis-trigger-card {
 	background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.05));
 	border: 1px solid rgba(255, 255, 255, 0.12);
@@ -1659,6 +1720,145 @@ body.bg-dimmed::before {
 
 	.area-modal-item__text {
 		font-size: 13px;
+	}
+}
+
+/* Modal Eventos */
+.eventos-modal {
+	display: none;
+	position: fixed;
+	inset: 0;
+	z-index: 1000;
+}
+
+.eventos-modal.modal--open {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.eventos-modal__content {
+	position: relative;
+	width: min(90vw, 800px);
+	max-height: 90vh;
+	overflow-y: auto;
+	background: var(--panel);
+	border: 1px solid var(--border);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow);
+	padding: 40px;
+	margin: 20px;
+	animation: slideUp 300ms ease;
+}
+
+.eventos-modal__close {
+	position: absolute;
+	top: 20px;
+	right: 20px;
+	background: none;
+	border: none;
+	color: var(--text);
+	font-size: 32px;
+	cursor: pointer;
+	padding: 0;
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	transition: background-color 160ms ease;
+}
+
+.eventos-modal__close:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.eventos-modal__title {
+	margin: 0 0 16px 0;
+	font-size: 32px;
+	font-weight: 700;
+	color: var(--text);
+	line-height: 1.2;
+}
+
+.eventos-modal__grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	margin-top: 32px;
+}
+
+.eventos-item {
+	padding: 20px;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: var(--radius-md);
+	transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+	cursor: pointer;
+	position: relative;
+	overflow: hidden;
+}
+
+.eventos-item::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: radial-gradient(600px at 50% 50%, rgba(255, 255, 255, 0.1), transparent 80%);
+	opacity: 0;
+	transition: opacity 0.35s ease;
+	pointer-events: none;
+}
+
+.eventos-item:hover {
+	background: rgba(255, 255, 255, 0.08);
+	border-color: rgba(255, 255, 255, 0.15);
+	transform: translateY(-2px);
+}
+
+.eventos-item:hover::before {
+	opacity: 1;
+}
+
+.eventos-item:focus {
+	outline: 2px solid rgba(255, 221, 85, 0.5);
+	outline-offset: 2px;
+}
+
+.eventos-item__title {
+	margin: 0 0 8px 0;
+	font-family: 'Montserrat', Arial, sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--text);
+	letter-spacing: 0.02em;
+}
+
+.eventos-item__text {
+	margin: 0;
+	color: var(--muted);
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+/* Responsivo para Eventos */
+@media (max-width: 768px) {
+	.eventos-modal__grid {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	.eventos-item {
+		padding: 16px;
+	}
+
+	.eventos-item__title {
+		font-size: 15px;
+	}
+
+	.eventos-item__text {
+		font-size: 13px;
+	}
 }
 
 /* Modal Informações Úteis */
