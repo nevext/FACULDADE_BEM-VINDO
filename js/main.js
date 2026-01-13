@@ -623,22 +623,10 @@ function configurarNavegacao() {
 			event.preventDefault();
 			aplicarOverlayPorHash(href);
 
-			// Centralizar a seção na viewport
-			const header = document.querySelector('.site-header');
-			const headerHeight = header ? header.offsetHeight : 0;
-			const viewportHeight = window.innerHeight;
-			const elementRect = alvo.getBoundingClientRect();
-			const elementHeight = elementRect.height;
-			const currentTop = elementRect.top;
-
-			// Calcular posição desejada (centro da viewport)
-			const targetTop = (viewportHeight - elementHeight) / 2;
-			const scrollAdjustment = currentTop - targetTop;
-
-			window.scrollBy({
-				top: scrollAdjustment,
-				behavior: 'smooth'
-			});
+			// Pequeno delay para garantir que a página esteja pronta
+			setTimeout(() => {
+				alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+			}, 100);
 
 			history.pushState(null, "", href);
 		});
