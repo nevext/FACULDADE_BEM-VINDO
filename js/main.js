@@ -412,14 +412,19 @@ const eventosData = {
 	],
 	parceria: [
 		{
-			titulo: "Tech Summit Brasil",
-			data: "10 de Fevereiro - 09h",
-			descricao: "Grande conferência de tecnologia com empresas líderes do mercado. Ingresso facilitado para alunos CIESA."
+			titulo: "Bemol BDXP Pocket Edition",
+			data: "Realizado",
+			descricao: "Evento da Bemol que apresentou tendências em tecnologia e cybersegurança. Incluiu palestra sobre segurança digital, coffee break e troca de dados com profissionais da área."
 		},
 		{
-			titulo: "Design Conference 2025",
-			data: "17 de Fevereiro - 14h",
-			descricao: "Evento de design e UX em parceria com agências reconhecidas. Inscrições abertas para nossa comunidade."
+			titulo: "INDT - Instituto Nokia de Tecnologia",
+			data: "Realizado",
+			descricao: "CIESA foi convidado para participar de evento do INDT com foco em cybersegurança avançada. Além de palestras aprofundadas, contou com testes práticos em aparelhos e demonstrações de segurança em sistemas reais."
+		},
+		{
+			titulo: "Expo Projetos - Plaza Shopping",
+			data: "Anualmente",
+			descricao: "Grande evento onde todas as faculdades de Manaus apresentam e entregam seus projetos acadêmicos e de extensão. Oportunidade de showcasing profissional e networking com toda a comunidade acadêmica local."
 		}
 	],
 	indicados: [
