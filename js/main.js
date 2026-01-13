@@ -612,6 +612,38 @@ function configurarNavegacao() {
 		}
 	}
 
+	function atualizarNavAtivo() {
+		const secoes = document.querySelectorAll("section[id]");
+		const scrollY = window.scrollY + window.innerHeight / 2; // Centro da viewport
+
+		let secaoAtiva = null;
+		let menorDistancia = Infinity;
+
+		// Encontrar a seção mais próxima do centro da viewport
+		for (const secao of secoes) {
+			const rect = secao.getBoundingClientRect();
+			const secaoTop = window.scrollY + rect.top;
+			const secaoCenter = secaoTop + rect.height / 2;
+			const distancia = Math.abs(scrollY - secaoCenter);
+
+			if (distancia < menorDistancia) {
+				menorDistancia = distancia;
+				secaoAtiva = secao;
+			}
+		}
+
+		// Remover classe ativa de todos os links
+		links.forEach(link => link.classList.remove("nav__link--active"));
+
+		// Adicionar classe ativa ao link correspondente
+		if (secaoAtiva) {
+			const linkAtivo = document.querySelector(`.nav__link[href="#${secaoAtiva.id}"]`);
+			if (linkAtivo) {
+				linkAtivo.classList.add("nav__link--active");
+			}
+		}
+	}
+
 	for (const link of links) {
 		link.addEventListener("click", (event) => {
 			const href = link.getAttribute("href") || "";
@@ -655,6 +687,13 @@ function configurarNavegacao() {
 		// Se chegou aqui, clicou fora - remover overlay
 		document.body.classList.remove("bg-dimmed");
 	});
+
+	// Atualizar navegação ativa no scroll e resize
+	window.addEventListener("scroll", atualizarNavAtivo, { passive: true });
+	window.addEventListener("resize", atualizarNavAtivo, { passive: true });
+
+	// Inicializar navegação ativa
+	atualizarNavAtivo();
 
 	aplicarOverlayPorHash(window.location.hash);
 	window.addEventListener("hashchange", () => aplicarOverlayPorHash(window.location.hash));
