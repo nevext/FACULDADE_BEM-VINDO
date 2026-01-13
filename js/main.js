@@ -688,8 +688,8 @@ function configurarNavegacao() {
 			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 			const visibilityRatio = visibleHeight / rect.height;
 
-			// Se a seção está pelo menos 5% visível e deve ser considerada
-			if (shouldConsider && visibilityRatio > 0.05 && distance < minDistance) {
+			// Se a seção está pelo menos 1% visível e deve ser considerada
+			if (shouldConsider && visibilityRatio > 0.01 && distance < minDistance) {
 				minDistance = distance;
 				targetSection = secao;
 			}
