@@ -11,7 +11,43 @@ const infosUteis = {
 	},
 	laboratorio: {
 		titulo: "💻 Laboratórios",
-		descricao: "Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos."
+		descricao: `
+			<div class="laboratorio-content">
+				<div class="laboratorio-intro">
+					<p>Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos.</p>
+				</div>
+
+				<div class="laboratorio-responsabilidade">
+					<h3>⚠️ Responsabilidade e Cuidados</h3>
+					<p>Os laboratórios são espaços de uso compartilhado e exigem responsabilidade de todos os alunos. Zelar pela conservação dos equipamentos e pela limpeza do ambiente é fundamental para manter a qualidade desses recursos.</p>
+					
+					<div class="responsabilidade-lista">
+						<h4>🛡️ Como Cuidar dos Equipamentos</h4>
+						<ul class="responsabilidade-items">
+							<li><strong>Manejo cuidadoso:</strong> Utilize os computadores e periféricos com cuidado e atenção</li>
+							<li><strong>Limpeza regular:</strong> Limpe seu espaço de trabalho ao final de cada uso</li>
+							<li><strong>Organização:</strong> Deixe os equipamentos organizados e na posição correta</li>
+							<li><strong>Relato de problemas:</strong> Comunique imediatamente qualquer dano ou mau funcionamento ao suporte técnico</li>
+							<li><strong>Segurança:</strong> Não realize modificações ou desmontes não autorizados</li>
+						</ul>
+					</div>
+
+					<div class="responsabilidade-lista">
+						<h4>🧹 Mantendo o Ambiente Limpo</h4>
+						<ul class="responsabilidade-items">
+							<li><strong>Limpeza após uso:</strong> Limpe sua estação de trabalho, teclado e mouse</li>
+							<li><strong>Organização:</strong> Guarde seus pertences pessoais e materiais adequadamente</li>
+							<li><strong>Respeito ao espaço:</strong> Mantenha o laboratório limpo e agradável para outros usuários</li>
+							<li><strong>Higiene:</strong> Retirar lixo e manter a área com boa ventilação</li>
+						</ul>
+					</div>
+
+					<div class="responsabilidade-aviso">
+						<p><strong>📌 Importante:</strong> O descuido com os equipamentos pode resultar em restrição de acesso aos laboratórios e responsabilização do aluno por danos causados.</p>
+					</div>
+				</div>
+			</div>
+		`
 	},
 	notas: {
 		titulo: "📊 Notas",

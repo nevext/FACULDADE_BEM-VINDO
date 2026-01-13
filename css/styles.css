@@ -2989,4 +2989,107 @@ body.bg-dimmed::before {
   }
 }
 
+/* Laboratório Styles */
+.laboratorio-content {
+  padding: 24px 0;
+}
+
+.laboratorio-intro {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.laboratorio-intro p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.laboratorio-responsabilidade {
+  margin-top: 24px;
+}
+
+.laboratorio-responsabilidade h3 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent-2);
+}
+
+.laboratorio-responsabilidade > p {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.responsabilidade-lista {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: rgba(12, 14, 22, 0.5);
+  border-radius: var(--radius-md);
+  border-left: 3px solid var(--accent-1);
+}
+
+.responsabilidade-lista h4 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--accent-1);
+}
+
+.responsabilidade-items {
+  margin: 0;
+  padding-left: 20px;
+  list-style: none;
+}
+
+.responsabilidade-items li {
+  margin-bottom: 12px;
+  padding-left: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text);
+  position: relative;
+}
+
+.responsabilidade-items li:before {
+  content: "✓";
+  position: absolute;
+  left: -20px;
+  color: var(--accent-1);
+  font-weight: bold;
+}
+
+.responsabilidade-items li:last-child {
+  margin-bottom: 0;
+}
+
+.responsabilidade-items strong {
+  color: var(--accent-1);
+  font-weight: 600;
+}
+
+.responsabilidade-aviso {
+  margin-top: 24px;
+  padding: 20px;
+  background: rgba(255, 122, 133, 0.1);
+  border: 1px solid rgba(255, 122, 133, 0.3);
+  border-radius: var(--radius-md);
+}
+
+.responsabilidade-aviso p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.responsabilidade-aviso strong {
+  color: var(--accent-2);
+  font-weight: 600;
+}
+
 }
