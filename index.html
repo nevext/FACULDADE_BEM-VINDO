@@ -37,6 +37,26 @@
   <main class="main">
     <section id="inicio" class="splash" aria-label="Início"></section>
 
+    <section id="o-que-teremos-hoje" class="section">
+      <div class="container">
+        <div class="o-que-teremos-hoje-content">
+          <p class="section__eyebrow">Programação</p>
+          <h2 class="section__title">O que Teremos Hoje</h2>
+          <div class="section__accent" aria-hidden="true"></div>
+          <p class="section__text o-que-teremos-hoje-text">
+            Acompanhe a programação completa do dia. Desde a apresentação das seções do site, passando por presentes, 
+            até o desafio do Kahoot com prêmios especiais para os vencedores e um coffee break para relaxar.
+          </p>
+
+          <div class="o-que-teremos-hoje-trigger-card" id="o-que-teremos-hoje-trigger" role="button" tabindex="0">
+            <div class="o-que-teremos-hoje-trigger__content">
+              <h3 class="o-que-teremos-hoje-trigger__title">Ver Programação Completa</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="quem-somos" class="quem-somos-section" aria-label="Quem somos">
       <div class="container quem-somos__inner">
         <h2 class="section__title quem-somos__title">Quem somos?</h2>
@@ -48,7 +68,7 @@
           </div>
           <div class="liga-card liga-card--chrono" data-liga="chrono">
             <div class="liga-card__media" aria-hidden="true"></div>
-            <h3 class="liga-card__title">Liga Chronokaio</h3>
+            <h3 class="liga-card__title">LIGA CHRONOKAIO</h3>
             <p class="liga-card__subtitle">Uma liga focada em produtividade, organização e experiências práticas.
               Introdução a desenvolvimento de software e gestão de projetos.
             </p>
@@ -236,6 +256,46 @@
     </div>
   </div>
 
+  <!-- Modal O que Teremos Hoje -->
+  <div id="o-que-teremos-hoje-modal" class="modal o-que-teremos-hoje-modal" role="dialog" aria-labelledby="o-que-teremos-hoje-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content o-que-teremos-hoje-modal__content">
+      <button class="modal__close o-que-teremos-hoje-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="o-que-teremos-hoje-modal-title" class="o-que-teremos-hoje-modal__title">O que Teremos Hoje</h2>
+
+      <div class="o-que-teremos-hoje-agenda">
+        <div class="agenda-section">
+          <h3 class="agenda-section__title">🎁 Presentes</h3>
+          <p class="agenda-section__desc">Receba um presente especial quando chegar!</p>
+        </div>
+
+        <div class="agenda-section">
+          <h3 class="agenda-section__title">📚 Apresentação das Seções</h3>
+          <ol class="agenda-list">
+            <li>Quem somos - Ligas e contexto</li>
+            <li>Sobre o CIESA - Visão geral da instituição</li>
+            <li>Informações Úteis - Recursos importantes</li>
+            <li>Áreas de Atuação - Caminhos profissionais</li>
+            <li>Eventos - Agenda e oportunidades</li>
+            <li>IA & GitHub - Tecnologia e colaboração</li>
+            <li>Sobre o Site - Como foi desenvolvido</li>
+          </ol>
+        </div>
+
+        <div class="agenda-section">
+          <h3 class="agenda-section__title">🎮 Kahoot - Desafio Interativo</h3>
+          <p class="agenda-section__desc">Perguntas sobre tudo que foi apresentado no site!</p>
+          <p class="agenda-section__highlight">🏆 Os vencedores ganham uma caixa de chocolate!</p>
+        </div>
+
+        <div class="agenda-section">
+          <h3 class="agenda-section__title">☕ Coffee Break</h3>
+          <p class="agenda-section__desc">Relaxe e converse com colegas e professores</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Informações Úteis -->
   <div id="informacoes-uteis-modal" class="modal informacoes-uteis-modal" role="dialog" aria-labelledby="informacoes-uteis-modal-title">
     <div class="modal__overlay" aria-hidden="true"></div>
@@ -271,6 +331,10 @@
         <div class="info-item" data-info="conquistas" role="button" tabindex="0">
           <h3 class="info-item__title">🏆 Conquistas dos Alunos</h3>
           <p class="info-item__text">Prêmios, estágios e reconhecimentos conquistados</p>
+        </div>
+        <div class="info-item" data-info="cordenadora" role="button" tabindex="0">
+          <h3 class="info-item__title">👩‍💼 Cordenadora</h3>
+          <p class="info-item__text">Conheça Janaina Souza, nossa coordenadora</p>
         </div>
       </div>
     </div>

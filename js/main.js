@@ -344,6 +344,40 @@ const infosUteis = {
 				</div>
 			</div>
 		`
+	},
+	cordenadora: {
+		titulo: "👩‍💼 Cordenadora do Curso",
+		descricao: `
+			<div class="cordenadora-content">
+				<div class="cordenadora-header">
+					<h3>Janaina Souza</h3>
+					<p class="cordenadora-cargo">Coordenadora do Curso de Comunicação Digital</p>
+				</div>
+
+				<div class="cordenadora-bio">
+					<h4>Sobre a Coordenadora</h4>
+					<p>Janaina Souza é a coordenadora responsável pela condução acadêmica e institucional do curso de Comunicação Digital no CIESA. Com vasta experiência na área de comunicação e tecnologia, ela é dedicada a proporcionar uma educação de excelência que une teoria e prática.</p>
+					<p>Sua liderança é marcada pelo compromisso com o desenvolvimento profissional dos alunos, pela inovação curricular e pelo fortalecimento das conexões entre a instituição e o mercado de trabalho.</p>
+				</div>
+
+				<div class="cordenadora-responsabilidades">
+					<h4>Responsabilidades Principais</h4>
+					<ul>
+						<li><strong>Orientação Acadêmica:</strong> Acompanhamento contínuo do progresso dos alunos</li>
+						<li><strong>Gestão Curricular:</strong> Desenvolvimento e atualização do currículo do curso</li>
+						<li><strong>Parcerias Institucionais:</strong> Estabelecimento de conexões com empresas e instituições</li>
+						<li><strong>Suporte ao Aluno:</strong> Resolução de dúvidas e orientações sobre carreira</li>
+						<li><strong>Inovação Pedagógica:</strong> Implementação de novas metodologias e tecnologias</li>
+					</ul>
+				</div>
+
+				<div class="cordenadora-contato">
+					<h4>Como Entrar em Contato</h4>
+					<p>A coordenadora está sempre disponível para atender aos alunos com dúvidas, sugestões ou orientações sobre o curso. Agende um horário através da secretaria do CIESA ou entre em contato através do email institucional.</p>
+					<p><strong>Dica:</strong> Visite regularmente a coordenadoria para estar sempre atualizado sobre as novidades do curso e oportunidades de desenvolvimento profissional!</p>
+				</div>
+			</div>
+		`
 	}
 };
 
@@ -551,6 +585,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalInfos();
 	configurarModalEventos();
 	configurarModalAreas();
+	configurarModalOQueTeremosHoje();
 	configurarModalEquipe();
 });
 
@@ -834,6 +869,36 @@ function configurarModalEventos() {
 			trocarAba(novaAba);
 		});
 	});
+
+	// Fechar com ESC
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+			fecharModal();
+		}
+	});
+}
+
+function configurarModalOQueTeremosHoje() {
+	const modal = document.getElementById("o-que-teremos-hoje-modal");
+	const trigger = document.getElementById("o-que-teremos-hoje-trigger");
+	if (!modal || !trigger) return;
+	const closeBtn = modal.querySelector(".o-que-teremos-hoje-modal__close");
+	const overlay = modal.querySelector(".modal__overlay");
+	if (!closeBtn || !overlay) return;
+
+	function abrirModal() {
+		modal.classList.add("modal--open");
+		document.body.style.overflow = "hidden";
+	}
+
+	function fecharModal() {
+		modal.classList.remove("modal--open");
+		document.body.style.overflow = "";
+	}
+
+	trigger.addEventListener("click", abrirModal);
+	closeBtn.addEventListener("click", fecharModal);
+	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
 	document.addEventListener("keydown", (event) => {
