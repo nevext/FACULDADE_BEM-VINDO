@@ -11,7 +11,7 @@ const infosUteis = {
 	},
 	laboratorio: {
 		titulo: "💻 Laboratórios",
-		descricao: "Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos."
+		descricao: "Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos. Lembre-se de tomar cuidado e zelar pelos equipamentos, mantendo-os em bom estado para que todos possam usufruir desses recursos de qualidade."
 	},
 	notas: {
 		titulo: "📊 Notas",
