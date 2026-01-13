@@ -11,7 +11,7 @@ const infosUteis = {
 	},
 	laboratorio: {
 		titulo: "💻 Laboratórios",
-		descricao: "Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos. Lembre-se de tomar cuidado e zelar pelos equipamentos, mantendo-os em bom estado para que todos possam usufruir desses recursos de qualidade."
+		descricao: "Nossos laboratórios estão equipados com computadores de última geração e softwares especializados para cada área de conhecimento. Os ambientes são projetados para prática profissional, permitindo que você desenvolva projetos reais e ganhe experiência prática essencial. Com suporte técnico disponível, você tem tudo para colocar em prática seus conhecimentos teóricos."
 	},
 	notas: {
 		titulo: "📊 Notas",
@@ -800,80 +800,116 @@ function configurarModalEventos() {
 	if (!modal || !trigger) return;
 	const closeBtn = modal.querySelector(".eventos-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	const tabs = modal.querySelectorAll(".eventos-tab");
-	const panels = modal.querySelectorAll(".eventos-panel");
+	const eventosItems = modal.querySelectorAll(".eventos-item");
+	const detalhesModal = document.getElementById("eventos-detalhes-modal");
+	const detalhesCloseBtn = detalhesModal?.querySelector(".eventos-detalhes-modal__close");
+	const detalhesOverlay = detalhesModal?.querySelector(".modal__overlay");
+	const detalhesTitle = document.getElementById("eventos-detalhes-title");
+	const detalhesSubtitle = document.getElementById("eventos-detalhes-subtitle");
+	const detalhesLista = document.getElementById("eventos-detalhes-lista");
 	if (!closeBtn || !overlay) return;
+	if (!detalhesModal || !detalhesCloseBtn || !detalhesOverlay || !detalhesTitle || !detalhesSubtitle || !detalhesLista) return;
 
-	function renderizarEventos() {
-		const ciesaList = modal.querySelector("#eventos-ciesa-list");
-		const parceriaList = modal.querySelector("#eventos-parceria-list");
-		const indicadosList = modal.querySelector("#eventos-indicados-list");
-		if (!ciesaList || !parceriaList || !indicadosList) return;
-
-		function renderEventos(container, tipo) {
-			container.innerHTML = "";
-			const eventos = eventosData[tipo];
-
-			if (eventos.length === 0) {
-				container.innerHTML = '<div class="evento-item evento-item--empty">Em breve, mais eventos!</div>';
-				return;
-			}
-
-			eventos.forEach((evento) => {
-				const div = document.createElement("div");
-				div.className = "evento-item";
-				div.innerHTML = `
-					<div class="evento-item__date">${evento.data}</div>
-					<h3 class="evento-item__title">${evento.titulo}</h3>
-					<p class="evento-item__description">${evento.descricao}</p>
-				`;
-				container.appendChild(div);
-			});
-		}
-
-		renderEventos(ciesaList, "ciesa");
-		renderEventos(parceriaList, "parceria");
-		renderEventos(indicadosList, "indicados");
-	}
+	const detalhesMeta = {
+		ciesa: {
+			titulo: "🎓 Eventos do CIESA",
+			subtitulo: "Eventos organizados pelo próprio CIESA para seu desenvolvimento acadêmico e profissional.",
+		},
+		parceria: {
+			titulo: "🤝 Eventos de Parcerias",
+			subtitulo: "Eventos que o CIESA consegue para os alunos através de parcerias com instituições e empresas.",
+		},
+		indicados: {
+			titulo: "⭐ Eventos Indicados",
+			subtitulo: "Eventos que acontecem em Manaus e são indicados para ganhar mais conhecimento, networking e experiências.",
+		},
+	};
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
 		document.body.style.overflow = "hidden";
-		renderizarEventos();
 	}
 
 	function fecharModal() {
 		modal.classList.remove("modal--open");
+		fecharDetalhes();
 		document.body.style.overflow = "";
 	}
 
-	function trocarAba(novaAba) {
-		// Remover ativo de todas as abas e painéis
-		tabs.forEach((tab) => tab.classList.remove("eventos-tab--active"));
-		panels.forEach((panel) => panel.classList.remove("eventos-panel--active"));
+	function fecharDetalhes() {
+		detalhesModal.classList.remove("modal--open");
+		if (!modal.classList.contains("modal--open")) {
+			document.body.style.overflow = "";
+		}
+	}
 
-		// Ativar a nova aba e painel
-		const abaBotao = modal.querySelector(`[data-tab="${novaAba}"]`);
-		const painelDiv = modal.querySelector(`[data-panel="${novaAba}"]`);
+	function abrirDetalhesEventos(tipo) {
+		if (!tipo || !(tipo in eventosData)) return;
 
-		if (abaBotao) abaBotao.classList.add("eventos-tab--active");
-		if (painelDiv) painelDiv.classList.add("eventos-panel--active");
+		const meta = detalhesMeta[tipo] || { titulo: "Eventos", subtitulo: "" };
+		detalhesTitle.textContent = meta.titulo;
+		detalhesSubtitle.textContent = meta.subtitulo;
+
+		// Renderizar eventos
+		detalhesLista.innerHTML = "";
+		const eventos = eventosData[tipo] || [];
+
+		if (eventos.length === 0) {
+			detalhesLista.innerHTML = '<div class="evento-detalhe evento-detalhe--empty">Em breve, mais eventos!</div>';
+		} else {
+			eventos.forEach((evento) => {
+				const div = document.createElement("div");
+				div.className = "evento-detalhe";
+				div.innerHTML = `
+					<div class="evento-detalhe__data">${evento.data}</div>
+					<h3 class="evento-detalhe__titulo">${evento.titulo}</h3>
+					<p class="evento-detalhe__descricao">${evento.descricao}</p>
+				`;
+				detalhesLista.appendChild(div);
+			});
+		}
+
+		detalhesModal.classList.add("modal--open");
+		document.body.style.overflow = "hidden";
 	}
 
 	trigger.addEventListener("click", abrirModal);
+	trigger.addEventListener("keydown", (event) => {
+		if (event.key === "Enter" || event.key === " ") {
+			event.preventDefault();
+			abrirModal();
+		}
+	});
+
 	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
+	detalhesCloseBtn.addEventListener("click", fecharDetalhes);
+	detalhesOverlay.addEventListener("click", fecharDetalhes);
 
-	tabs.forEach((tab) => {
-		tab.addEventListener("click", () => {
-			const novaAba = tab.getAttribute("data-tab");
-			trocarAba(novaAba);
+	// Adicionar eventos aos cards
+	eventosItems.forEach((item) => {
+		item.addEventListener("click", () => {
+			const tipo = item.getAttribute("data-eventos");
+			abrirDetalhesEventos(tipo);
+		});
+
+		item.addEventListener("keydown", (event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				const tipo = item.getAttribute("data-eventos");
+				abrirDetalhesEventos(tipo);
+			}
 		});
 	});
 
 	// Fechar com ESC
 	document.addEventListener("keydown", (event) => {
-		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
+		if (event.key !== "Escape") return;
+		if (detalhesModal.classList.contains("modal--open")) {
+			fecharDetalhes();
+			return;
+		}
+		if (modal.classList.contains("modal--open")) {
 			fecharModal();
 		}
 	});

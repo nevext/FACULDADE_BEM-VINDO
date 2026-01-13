@@ -223,39 +223,6 @@
     </div>
   </div>
 
-  <!-- Modal Eventos -->
-  <div id="eventos-modal" class="modal eventos-modal" role="dialog" aria-labelledby="eventos-modal-title">
-    <div class="modal__overlay" aria-hidden="true"></div>
-    <div class="modal__content eventos-modal__content">
-      <button class="modal__close eventos-modal__close" aria-label="Fechar modal">&times;</button>
-      <h2 id="eventos-modal-title" class="eventos-modal__title">Eventos</h2>
-      
-      <div class="eventos-tabs">
-        <button class="eventos-tab eventos-tab--active" data-tab="ciesa">
-          🎓 Eventos CIESA
-        </button>
-        <button class="eventos-tab" data-tab="parceria">
-          🤝 Parcerias
-        </button>
-        <button class="eventos-tab" data-tab="indicados">
-          ⭐ Indicados
-        </button>
-      </div>
-
-      <div class="eventos-content">
-        <div class="eventos-panel eventos-panel--active" data-panel="ciesa">
-          <div class="eventos-list" id="eventos-ciesa-list"></div>
-        </div>
-        <div class="eventos-panel" data-panel="parceria">
-          <div class="eventos-list" id="eventos-parceria-list"></div>
-        </div>
-        <div class="eventos-panel" data-panel="indicados">
-          <div class="eventos-list" id="eventos-indicados-list"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Modal O que Teremos Hoje -->
   <div id="o-que-teremos-hoje-modal" class="modal o-que-teremos-hoje-modal" role="dialog" aria-labelledby="o-que-teremos-hoje-modal-title">
     <div class="modal__overlay" aria-hidden="true"></div>
@@ -337,6 +304,41 @@
           <p class="info-item__text">Conheça nossa coordenadora Janaina Souza</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal Eventos -->
+  <div id="eventos-modal" class="modal eventos-modal" role="dialog" aria-labelledby="eventos-modal-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content eventos-modal__content">
+      <button class="modal__close eventos-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="eventos-modal-title" class="eventos-modal__title">Eventos</h2>
+
+      <div class="eventos-modal__grid">
+        <div class="eventos-item" data-eventos="ciesa" role="button" tabindex="0">
+          <h3 class="eventos-item__title">🎓 Eventos do CIESA</h3>
+          <p class="eventos-item__text">Workshop de Tecnologia, Fórum de Carreiras e Hackathon</p>
+        </div>
+        <div class="eventos-item" data-eventos="parceria" role="button" tabindex="0">
+          <h3 class="eventos-item__title">🤝 Eventos de Parcerias</h3>
+          <p class="eventos-item__text">Tech Summit Brasil, Design Conference e muito mais</p>
+        </div>
+        <div class="eventos-item" data-eventos="indicados" role="button" tabindex="0">
+          <h3 class="eventos-item__title">⭐ Eventos Indicados</h3>
+          <p class="eventos-item__text">Bootcamps, certificações e webinars especializados</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Detalhes - Eventos (reutilizável) -->
+  <div id="eventos-detalhes-modal" class="modal eventos-detalhes-modal" role="dialog" aria-labelledby="eventos-detalhes-title">
+    <div class="modal__overlay" aria-hidden="true"></div>
+    <div class="modal__content eventos-detalhes-modal__content">
+      <button class="modal__close eventos-detalhes-modal__close" aria-label="Fechar modal">&times;</button>
+      <h2 id="eventos-detalhes-title" class="eventos-detalhes-modal__title"></h2>
+      <p class="eventos-detalhes-modal__subtitle" id="eventos-detalhes-subtitle"></p>
+      <div id="eventos-detalhes-lista" class="eventos-detalhes-lista"></div>
     </div>
   </div>
 
