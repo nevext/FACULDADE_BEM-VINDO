@@ -800,6 +800,7 @@ function configurarModalEventos() {
 	if (!modal || !trigger) return;
 	const closeBtn = modal.querySelector(".eventos-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
+	const eventosItems = modal.querySelectorAll(".eventos-item");
 	if (!closeBtn || !overlay) return;
 
 	function abrirModal() {
@@ -822,6 +823,17 @@ function configurarModalEventos() {
 
 	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
+
+	// Adicionar eventos aos cards
+	eventosItems.forEach((item) => {
+		item.addEventListener("click", fecharModal);
+		item.addEventListener("keydown", (event) => {
+			if (event.key === "Enter" || event.key === " ") {
+				event.preventDefault();
+				fecharModal();
+			}
+		});
+	});
 
 	// Fechar com ESC
 	document.addEventListener("keydown", (event) => {
