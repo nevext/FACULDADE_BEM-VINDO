@@ -600,6 +600,7 @@ function aplicarTextos() {
 
 function configurarNavegacao() {
 	const links = document.querySelectorAll(".nav__link");
+	let scrollTimeout;
 
 	function aplicarOverlayPorHash(hash) {
     if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis" || hash === "#eventos" || hash === "#ia-github" || hash === "#criacao-site") {
@@ -614,20 +615,27 @@ function configurarNavegacao() {
 
 	function atualizarNavAtivo() {
 		const secoes = document.querySelectorAll("section[id]");
-		const scrollY = window.scrollY + window.innerHeight / 2; // Centro da viewport
+		const scrollY = window.scrollY;
+		const windowHeight = window.innerHeight;
+		const headerHeight = 80; // Altura aproximada do header
 
 		let secaoAtiva = null;
-		let menorDistancia = Infinity;
+		let maxVisibility = 0;
 
-		// Encontrar a seção mais próxima do centro da viewport
+		// Encontrar a seção mais visível na viewport
 		for (const secao of secoes) {
 			const rect = secao.getBoundingClientRect();
-			const secaoTop = window.scrollY + rect.top;
-			const secaoCenter = secaoTop + rect.height / 2;
-			const distancia = Math.abs(scrollY - secaoCenter);
+			const secaoTop = rect.top + scrollY;
+			const secaoBottom = rect.bottom + scrollY;
 
-			if (distancia < menorDistancia) {
-				menorDistancia = distancia;
+			// Calcular quanto da seção está visível
+			const visibleTop = Math.max(secaoTop, scrollY + headerHeight);
+			const visibleBottom = Math.min(secaoBottom, scrollY + windowHeight);
+			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+			const visibilityRatio = visibleHeight / rect.height;
+
+			if (visibilityRatio > maxVisibility && visibilityRatio > 0.3) { // Pelo menos 30% visível
+				maxVisibility = visibilityRatio;
 				secaoAtiva = secao;
 			}
 		}
@@ -635,13 +643,22 @@ function configurarNavegacao() {
 		// Remover classe ativa de todos os links
 		links.forEach(link => link.classList.remove("nav__link--active"));
 
-		// Adicionar classe ativa ao link correspondente
+		// Adicionar classe ativa ao link correspondente (apenas se existir no nav)
 		if (secaoAtiva) {
 			const linkAtivo = document.querySelector(`.nav__link[href="#${secaoAtiva.id}"]`);
 			if (linkAtivo) {
 				linkAtivo.classList.add("nav__link--active");
 			}
 		}
+	}
+
+	// Função throttled para otimizar performance no scroll
+	function atualizarNavAtivoThrottled() {
+		if (scrollTimeout) return;
+		scrollTimeout = setTimeout(() => {
+			atualizarNavAtivo();
+			scrollTimeout = null;
+		}, 100); // Atualiza no máximo a cada 100ms
 	}
 
 	for (const link of links) {
@@ -688,8 +705,8 @@ function configurarNavegacao() {
 		document.body.classList.remove("bg-dimmed");
 	});
 
-	// Atualizar navegação ativa no scroll e resize
-	window.addEventListener("scroll", atualizarNavAtivo, { passive: true });
+	// Atualizar navegação ativa no scroll e resize (com throttling para performance)
+	window.addEventListener("scroll", atualizarNavAtivoThrottled, { passive: true });
 	window.addEventListener("resize", atualizarNavAtivo, { passive: true });
 
 	// Inicializar navegação ativa
