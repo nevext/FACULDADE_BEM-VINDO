@@ -584,7 +584,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalCIESA();
 	configurarModalInformacoesUteis();
 	configurarModalInfos();
-	configurarModalEventos();
 	configurarModalAreas();
 	configurarModalOQueTeremosHoje();
 	configurarModalEquipe();
@@ -833,13 +832,6 @@ function configurarModalEventos() {
 				fecharModal();
 			}
 		});
-	});
-
-	// Fechar com ESC
-	document.addEventListener("keydown", (event) => {
-		if (event.key === "Escape" && modal.classList.contains("modal--open")) {
-			fecharModal();
-		}
 	});
 }
 
