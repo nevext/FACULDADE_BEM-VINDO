@@ -622,8 +622,16 @@ function configurarNavegacao() {
 
 			event.preventDefault();
 			aplicarOverlayPorHash(href);
-			alvo.scrollIntoView({ behavior: "smooth", block: "start" });
-			history.pushState(null, "", href);
+
+			// Usar scrollIntoView com block center, mas ajustar para compensar o header
+			alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+
+			// Pequeno ajuste para compensar o header fixo
+			setTimeout(() => {
+				const header = document.querySelector('.site-header');
+				const headerHeight = header ? header.offsetHeight : 0;
+				window.scrollBy(0, -headerHeight / 2);
+			}, 300);
 		});
 	}
 
