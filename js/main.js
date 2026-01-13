@@ -601,6 +601,9 @@ function aplicarTextos() {
 function configurarNavegacao() {
 	const links = document.querySelectorAll(".nav__link");
 	let scrollTimeout;
+	let isScrolling = false;
+	let scrollDirection = 0;
+	let lastScrollY = window.scrollY;
 
 	function aplicarOverlayPorHash(hash) {
     if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis" || hash === "#eventos" || hash === "#ia-github" || hash === "#criacao-site") {
@@ -652,13 +655,69 @@ function configurarNavegacao() {
 		}
 	}
 
+	// Função para rolagem automática suave para a seção mais próxima
+	function snapToNearestSection() {
+		const secoes = document.querySelectorAll("section[id]");
+		const scrollY = window.scrollY;
+		const windowHeight = window.innerHeight;
+		const headerHeight = 80;
+
+		let targetSection = null;
+		let minDistance = Infinity;
+
+		// Encontrar a seção mais próxima do centro da viewport
+		for (const secao of secoes) {
+			const rect = secao.getBoundingClientRect();
+			const secaoTop = rect.top + scrollY;
+			const viewportCenter = scrollY + windowHeight / 2;
+			const secaoCenter = secaoTop + rect.height / 2;
+			const distance = Math.abs(viewportCenter - secaoCenter);
+
+			if (distance < minDistance) {
+				minDistance = distance;
+				targetSection = secao;
+			}
+		}
+
+		// Se encontrou uma seção alvo, fazer scroll suave para ela
+		if (targetSection) {
+			const rect = targetSection.getBoundingClientRect();
+			const targetTop = rect.top + scrollY - headerHeight - (windowHeight - rect.height) / 2;
+
+			window.scrollTo({
+				top: Math.max(0, targetTop),
+				behavior: 'smooth'
+			});
+		}
+	}
+
 	// Função throttled para otimizar performance no scroll
-	function atualizarNavAtivoThrottled() {
+	function handleScroll() {
 		if (scrollTimeout) return;
+
+		const currentScrollY = window.scrollY;
+		scrollDirection = currentScrollY > lastScrollY ? 1 : -1; // 1 = descendo, -1 = subindo
+		lastScrollY = currentScrollY;
+
+		if (!isScrolling) {
+			isScrolling = true;
+
+			// Cancelar snap anterior se existir
+			if (window.snapTimeout) {
+				clearTimeout(window.snapTimeout);
+			}
+
+			// Agendar snap automático após parar de rolar
+			window.snapTimeout = setTimeout(() => {
+				snapToNearestSection();
+				isScrolling = false;
+			}, 300); // Espera 300ms após parar de rolar
+		}
+
 		scrollTimeout = setTimeout(() => {
 			atualizarNavAtivo();
 			scrollTimeout = null;
-		}, 100); // Atualiza no máximo a cada 100ms
+		}, 100);
 	}
 
 	for (const link of links) {
@@ -705,8 +764,8 @@ function configurarNavegacao() {
 		document.body.classList.remove("bg-dimmed");
 	});
 
-	// Atualizar navegação ativa no scroll e resize (com throttling para performance)
-	window.addEventListener("scroll", atualizarNavAtivoThrottled, { passive: true });
+	// Atualizar navegação ativa no scroll e resize (com snap automático)
+	window.addEventListener("scroll", handleScroll, { passive: true });
 	window.addEventListener("resize", atualizarNavAtivo, { passive: true });
 
 	// Inicializar navegação ativa
