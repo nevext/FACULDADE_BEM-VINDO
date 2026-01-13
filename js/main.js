@@ -601,9 +601,6 @@ function aplicarTextos() {
 function configurarNavegacao() {
 	const links = document.querySelectorAll(".nav__link");
 	let scrollTimeout;
-	let isScrolling = false;
-	let scrollDirection = 0;
-	let lastScrollY = window.scrollY;
 
 	function aplicarOverlayPorHash(hash) {
     if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis" || hash === "#eventos" || hash === "#ia-github" || hash === "#criacao-site") {
@@ -637,7 +634,7 @@ function configurarNavegacao() {
 			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
 			const visibilityRatio = visibleHeight / rect.height;
 
-			if (visibilityRatio > maxVisibility && visibilityRatio > 0.1) { // Pelo menos 10% visível
+			if (visibilityRatio > maxVisibility && visibilityRatio > 0.3) { // Pelo menos 30% visível
 				maxVisibility = visibilityRatio;
 				secaoAtiva = secao;
 			}
@@ -655,86 +652,13 @@ function configurarNavegacao() {
 		}
 	}
 
-	// Função para rolagem automática suave para a seção mais próxima
-	function snapToNearestSection() {
-		const secoes = document.querySelectorAll("section[id]");
-		const scrollY = window.scrollY;
-		const windowHeight = window.innerHeight;
-		const headerHeight = 80;
-
-		let targetSection = null;
-		let minDistance = Infinity;
-
-		// Encontrar a seção mais próxima considerando a direção do scroll
-		for (const secao of secoes) {
-			const rect = secao.getBoundingClientRect();
-			const secaoTop = rect.top + scrollY;
-			const viewportCenter = scrollY + windowHeight / 2;
-			const secaoCenter = secaoTop + rect.height / 2;
-			const distance = Math.abs(viewportCenter - secaoCenter);
-
-			// Se está rolando para baixo, priorizar seções abaixo
-			// Se está rolando para cima, priorizar seções acima
-			let shouldConsider = true;
-			if (scrollDirection > 0 && secaoCenter < viewportCenter - 100) {
-				shouldConsider = false; // Ignorar seções muito acima quando rolando para baixo
-			} else if (scrollDirection < 0 && secaoCenter > viewportCenter + 100) {
-				shouldConsider = false; // Ignorar seções muito abaixo quando rolando para cima
-			}
-
-			// Priorizar seções que estão mais visíveis (mesmo que parcialmente)
-			const visibleTop = Math.max(secaoTop, scrollY + headerHeight);
-			const visibleBottom = Math.min(secaoTop + rect.height, scrollY + windowHeight);
-			const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-			const visibilityRatio = visibleHeight / rect.height;
-
-			// Se a seção está pelo menos 1% visível e deve ser considerada
-			if (shouldConsider && visibilityRatio > 0.01 && distance < minDistance) {
-				minDistance = distance;
-				targetSection = secao;
-			}
-		}
-
-		// Se encontrou uma seção alvo, fazer scroll suave para ela
-		if (targetSection) {
-			const rect = targetSection.getBoundingClientRect();
-			const targetTop = rect.top + scrollY - headerHeight - (windowHeight - rect.height) / 2;
-
-			// Movimento mais suave e rápido
-			window.scrollTo({
-				top: Math.max(0, targetTop),
-				behavior: 'smooth'
-			});
-		}
-	}
-
 	// Função throttled para otimizar performance no scroll
-	function handleScroll() {
+	function atualizarNavAtivoThrottled() {
 		if (scrollTimeout) return;
-
-		const currentScrollY = window.scrollY;
-		scrollDirection = currentScrollY > lastScrollY ? 1 : -1; // 1 = descendo, -1 = subindo
-		lastScrollY = currentScrollY;
-
-		if (!isScrolling) {
-			isScrolling = true;
-
-			// Cancelar snap anterior se existir
-			if (window.snapTimeout) {
-				clearTimeout(window.snapTimeout);
-			}
-
-			// Agendar snap automático após parar de rolar
-			window.snapTimeout = setTimeout(() => {
-				snapToNearestSection();
-				isScrolling = false;
-			}, 50); // Espera apenas 50ms após parar de rolar
-		}
-
 		scrollTimeout = setTimeout(() => {
 			atualizarNavAtivo();
 			scrollTimeout = null;
-		}, 100);
+		}, 100); // Atualiza no máximo a cada 100ms
 	}
 
 	for (const link of links) {
@@ -781,8 +705,8 @@ function configurarNavegacao() {
 		document.body.classList.remove("bg-dimmed");
 	});
 
-	// Atualizar navegação ativa no scroll e resize (com snap automático)
-	window.addEventListener("scroll", handleScroll, { passive: true });
+	// Atualizar navegação ativa no scroll e resize (com throttling para performance)
+	window.addEventListener("scroll", atualizarNavAtivoThrottled, { passive: true });
 	window.addEventListener("resize", atualizarNavAtivo, { passive: true });
 
 	// Inicializar navegação ativa
@@ -893,6 +817,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.addEventListener("DOMContentLoaded", () => {
 	aplicarTextos();
 	configurarNavegacao();
+	configurarMenuMobile();
 	configurarModalLATIJ();
 	configurarModalChrono();
 	configurarEfeitoCaracteres();
@@ -906,6 +831,91 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalEquipe();
 	configurarModalSobreSite();
 });
+
+function configurarMenuMobile() {
+	const toggle = document.getElementById("nav-toggle");
+	const nav = document.getElementById("primary-nav") || document.querySelector(".nav");
+	const scrim = document.getElementById("nav-scrim");
+	if (!toggle || !nav || !scrim) return;
+
+	const mql = window.matchMedia("(max-width: 920px)");
+	let aberto = false;
+
+	function aplicarEstado(novoEstado) {
+		aberto = novoEstado;
+		document.body.classList.toggle("nav-open", aberto);
+		toggle.setAttribute("aria-expanded", aberto ? "true" : "false");
+		toggle.setAttribute("aria-label", aberto ? "Fechar menu" : "Abrir menu");
+		// No mobile, travar scroll quando menu estiver aberto
+		if (mql.matches) {
+			document.body.style.overflow = aberto ? "hidden" : "";
+		}
+	}
+
+	function abrir() {
+		if (!mql.matches) return;
+		aplicarEstado(true);
+	}
+
+	function fechar() {
+		aplicarEstado(false);
+	}
+
+	function alternar() {
+		if (!mql.matches) return;
+		aplicarEstado(!aberto);
+	}
+
+	// Toggle
+	toggle.addEventListener("click", (e) => {
+		e.stopPropagation();
+		alternar();
+	});
+
+	// Clique no scrim fecha
+	scrim.addEventListener("click", fechar);
+
+	// Clique fora (sem ser nav, links do nav e logo) fecha
+	document.addEventListener("click", (event) => {
+		if (!aberto || !mql.matches) return;
+		const target = event.target;
+		if (target.closest("#primary-nav")) return;
+		if (target.closest(".nav__link")) return;
+		if (target.closest(".brand")) return;
+		if (target.closest("#nav-toggle")) return;
+		fechar();
+	});
+
+	// Ao clicar em um link do nav, fechar menu (mobile)
+	nav.querySelectorAll(".nav__link").forEach((link) => {
+		link.addEventListener("click", () => {
+			if (mql.matches) fechar();
+		});
+	});
+
+	// ESC fecha
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape" && aberto && mql.matches) {
+			fechar();
+		}
+	});
+
+	// Se sair do mobile (resize), garantir estado fechado
+	function syncMedia() {
+		if (!mql.matches) {
+			fechar();
+			document.body.style.overflow = "";
+		}
+	}
+
+	if (typeof mql.addEventListener === "function") {
+		mql.addEventListener("change", syncMedia);
+	} else {
+		mql.addListener(syncMedia);
+	}
+
+	syncMedia();
+}
 
 function configurarEfeitoCaracteres() {
 	const aboutText = document.getElementById("about-description");
