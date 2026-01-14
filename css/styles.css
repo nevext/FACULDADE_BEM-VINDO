@@ -122,14 +122,9 @@ body.bg-dimmed::before {
   height: 44px;
   width: auto;
   display: block;
-  filter: grayscale(100%) contrast(1.05) brightness(1.12);
-  opacity: 0.92;
-  transition: filter 180ms ease, opacity 180ms ease, border 180ms ease, box-shadow 180ms ease;
 }
 
 .brand:active .brand__logo {
-  filter: none;
-  opacity: 1;
 }
 
 .nav {
