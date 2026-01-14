@@ -8,18 +8,29 @@ function setupModalUndo(modalId) {
 	}
 	
 	const modal = document.getElementById(modalId);
-	if (!modal) return;
+	if (!modal) {
+		console.log(`Modal ${modalId} não encontrado`);
+		return;
+	}
 	
 	const undoBtn = modal.querySelector('.modal__undo');
-	if (!undoBtn) return;
+	if (!undoBtn) {
+		console.log(`Botão undo não encontrado em ${modalId}`);
+		return;
+	}
+	
+	console.log(`Setup undo para ${modalId} OK`);
 	
 	undoBtn.addEventListener('click', () => {
+		console.log(`Undo clicado em ${modalId}. Stack size: ${modalStacks[modalId].length}`);
+		
 		if (modalStacks[modalId].length === 0) {
 			console.log('Nenhuma ação para desfazer');
 			return;
 		}
 		
 		const previousState = modalStacks[modalId].pop();
+		console.log('Executando estado anterior');
 		if (typeof previousState === 'function') {
 			previousState();
 		}
@@ -30,6 +41,7 @@ function pushModalState(modalId, stateFunction) {
 	if (!modalStacks[modalId]) {
 		modalStacks[modalId] = [];
 	}
+	console.log(`Push para ${modalId}. Novo tamanho: ${modalStacks[modalId].length + 1}`);
 	modalStacks[modalId].push(stateFunction);
 }
 
@@ -1239,12 +1251,11 @@ function configurarModalInformacoesUteis() {
 			const info = item.getAttribute("data-info");
 			const dados = infosUteis[info];
 			if (dados) {
-				// Salvar estado anterior (mostrar o modal de informações úteis novamente)
-				pushModalState("informacoes-uteis-modal", () => {
+				// Salvar estado anterior no modal de INFO (que será aberto)
+				pushModalState("info-modal", () => {
+					infoModal.classList.remove("modal--open");
+					document.body.style.overflow = "";
 					abrirModal();
-					if (infoModal) {
-						infoModal.classList.remove("modal--open");
-					}
 				});
 				
 				// Abre o modal individual
