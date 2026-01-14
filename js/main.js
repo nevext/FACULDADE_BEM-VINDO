@@ -3,10 +3,23 @@
 const actionHistory = [];
 const maxHistorySize = 50;
 
+// Histórico específico por modal
+const modalHistories = {};
+
 function addToHistory(action) {
 	actionHistory.push(action);
 	if (actionHistory.length > maxHistorySize) {
 		actionHistory.shift();
+	}
+}
+
+function addToModalHistory(modalId, action) {
+	if (!modalHistories[modalId]) {
+		modalHistories[modalId] = [];
+	}
+	modalHistories[modalId].push(action);
+	if (modalHistories[modalId].length > 20) {
+		modalHistories[modalId].shift();
 	}
 }
 
@@ -23,9 +36,62 @@ function undoLastAction() {
 	window.location.reload();
 }
 
-// Bloquear Ctrl+A
-document.addEventListener('keydown', (e) => {
-	if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+function undoModalAction(modalId) {
+	if (!modalHistories[modalId] || modalHistories[modalId].length === 0) {
+		console.log('Nenhuma ação para desfazer neste modal');
+		return;
+	}
+	
+	const lastAction = modalHistories[modalId].pop();
+	console.log('Desfazendo ação do modal:', lastAction);
+	
+	// Fecha o modal como ação de undo
+	const modal = document.getElementById(modalId);
+	if (modal) {
+		const overlay = modal.querySelector('.modal__overlay');
+		if (overlay) {
+			overlay.click();
+		}
+	}
+}
+
+// Inicializar botões de undo em todos os modais
+function initializeModalUndoButtons() {
+	// Lista de todos os IDs de modais
+	const modalIds = [
+		'info-modal',
+		'o-que-teremos-hoje-modal',
+		'informacoes-uteis-modal',
+		'eventos-modal',
+		'eventos-detalhes-modal',
+		'ia-github-modal',
+		'ia-github-detalhes-modal',
+		'sobre-site-modal',
+		'sobre-site-detalhes-modal',
+		'areas-modal',
+		'ciesa-modal',
+		'latij-modal',
+		'chrono-modal'
+	];
+	
+	modalIds.forEach(modalId => {
+		const modal = document.getElementById(modalId);
+		if (modal) {
+			const undoBtn = modal.querySelector('.modal__undo');
+			if (undoBtn) {
+				undoBtn.addEventListener('click', () => {
+					addToModalHistory(modalId, 'undo-clicked');
+					undoModalAction(modalId);
+				});
+			}
+		}
+	});
+}
+
+// Chamar quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+	initializeModalUndoButtons();
+});
 		e.preventDefault();
 		return false;
 	}

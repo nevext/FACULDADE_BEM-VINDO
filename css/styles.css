@@ -766,6 +766,34 @@ body.nav-open .nav-scrim {
   background: rgba(255, 255, 255, 0.1);
 }
 
+.modal__undo {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 28px;
+  cursor: pointer;
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.modal__undo:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.1);
+}
+
+.modal__undo:active {
+  transform: scale(0.95);
+}
+
 /* Modal CIESA Galeria */
 .ciesa-modal {
   display: none;
