@@ -1,5 +1,8 @@
 
-// Sistema Simples de Undo por Modal
+// ============================================
+// SISTEMA DE UNDO POR MODAL
+// ============================================
+
 const modalStacks = {}; // Pilha de estados para cada modal
 
 function setupModalUndo(modalId) {
@@ -8,29 +11,15 @@ function setupModalUndo(modalId) {
 	}
 	
 	const modal = document.getElementById(modalId);
-	if (!modal) {
-		console.log(`Modal ${modalId} não encontrado`);
-		return;
-	}
+	if (!modal) return;
 	
 	const undoBtn = modal.querySelector('.modal__undo');
-	if (!undoBtn) {
-		console.log(`Botão undo não encontrado em ${modalId}`);
-		return;
-	}
-	
-	console.log(`Setup undo para ${modalId} OK`);
+	if (!undoBtn) return;
 	
 	undoBtn.addEventListener('click', () => {
-		console.log(`Undo clicado em ${modalId}. Stack size: ${modalStacks[modalId].length}`);
-		
-		if (modalStacks[modalId].length === 0) {
-			console.log('Nenhuma ação para desfazer');
-			return;
-		}
+		if (modalStacks[modalId].length === 0) return;
 		
 		const previousState = modalStacks[modalId].pop();
-		console.log('Executando estado anterior');
 		if (typeof previousState === 'function') {
 			previousState();
 		}
@@ -41,57 +30,37 @@ function pushModalState(modalId, stateFunction) {
 	if (!modalStacks[modalId]) {
 		modalStacks[modalId] = [];
 	}
-	console.log(`Push para ${modalId}. Novo tamanho: ${modalStacks[modalId].length + 1}`);
 	modalStacks[modalId].push(stateFunction);
 }
 
-// Inicializar botões de undo em todos os modais
 function initializeModalUndoButtons() {
-	// Lista de todos os IDs de modais
 	const modalIds = [
-		'info-modal',
-		'o-que-teremos-hoje-modal',
-		'informacoes-uteis-modal',
-		'eventos-modal',
-		'eventos-detalhes-modal',
-		'ia-github-modal',
-		'ia-github-detalhes-modal',
-		'sobre-site-modal',
-		'sobre-site-detalhes-modal',
-		'areas-modal',
-		'ciesa-modal',
-		'latij-modal',
-		'chrono-modal'
+		'info-modal', 'o-que-teremos-hoje-modal', 'informacoes-uteis-modal',
+		'eventos-modal', 'eventos-detalhes-modal', 'ia-github-modal',
+		'ia-github-detalhes-modal', 'sobre-site-modal', 'sobre-site-detalhes-modal',
+		'areas-modal', 'ciesa-modal', 'latij-modal', 'chrono-modal'
 	];
 	
-	modalIds.forEach(modalId => {
-		setupModalUndo(modalId);
-	});
+	modalIds.forEach(modalId => setupModalUndo(modalId));
 }
 
-// Chamar quando o documento estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
-	initializeModalUndoButtons();
-});
+// ============================================
+// PROTEÇÃO CONTRA SELEÇÃO
+// ============================================
 
-// Bloquear Ctrl+A
 document.addEventListener('keydown', (e) => {
 	if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
 		e.preventDefault();
-		return false;
 	}
 });
 
-// Bloquear seleção de texto
 document.addEventListener('selectstart', (e) => {
 	e.preventDefault();
-	return false;
 });
 
-const textos = {
-	descricao_latij:
-		"A LIGA LATIJ é uma iniciativa estudantil voltada para eventos educacionais e culturais. Aqui você encontra oportunidades para aprender com projetos, participar de atividades e construir conexões com outros alunos e professores.",
-};
+// ============================================
+// DADOS ESTRUTURADOS
+// ============================================
 
 const infosUteis = {
 	biblioteca: {
@@ -740,14 +709,12 @@ const sobreSiteData = {
 
 function aplicarTextos() {
 	const elementos = document.querySelectorAll("[data-text]");
-	for (const elemento of elementos) {
+	elementos.forEach(elemento => {
 		const chave = elemento.getAttribute("data-text");
-		if (!chave) continue;
-		const valor = textos[chave];
-		if (typeof valor === "string") {
-			elemento.textContent = valor;
+		if (chave && textos[chave] && typeof textos[chave] === "string") {
+			elemento.textContent = textos[chave];
 		}
-	}
+	});
 }
 
 function configurarNavegacao() {
@@ -1009,7 +976,12 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
+// ============================================
+// INICIALIZAÇÃO PRINCIPAL
+// ============================================
+
 document.addEventListener("DOMContentLoaded", () => {
+	initializeModalUndoButtons();
 	aplicarTextos();
 	configurarNavegacao();
 	configurarMenuMobile();
@@ -1019,21 +991,6 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalCIESA();
 	configurarModalInformacoesUteis();
 	configurarModalInfos();
-	
-	// Configurar botão de undo
-	const undoBtn = document.getElementById("undo-btn");
-	if (undoBtn) {
-		undoBtn.addEventListener("click", undoLastAction);
-	}
-	
-	// Bloquear Ctrl+Z também (se preferir usar apenas o botão)
-	// document.addEventListener("keydown", (e) => {
-	//   if ((e.ctrlKey || e.metaKey) && e.key === "z") {
-	//     e.preventDefault();
-	//     undoLastAction();
-	//   }
-	// });
-
 	configurarModalEventos();
 	configurarModalAreas();
 	configurarModalOQueTeremosHoje();
