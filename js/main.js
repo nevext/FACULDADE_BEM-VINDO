@@ -936,6 +936,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalIAGithub();
 	configurarModalEquipe();
 	configurarModalSobreSite();
+	configurarAnimacaoLogo();
 });
 
 function configurarMenuMobile() {
@@ -1751,6 +1752,42 @@ function configurarModalIAGithub() {
 			fecharModal();
 		}
 	});
+}
+
+function configurarAnimacaoLogo() {
+	const brandLink = document.querySelector(".brand");
+	const logoAnimationOverlay = document.getElementById("logo-animation-overlay");
+	
+	if (!brandLink || !logoAnimationOverlay) return;
+
+	let lastAnimationTime = 0;
+	const cooldownDuration = 60000; // 60 segundos em milissegundos
+
+	function playLogoAnimation(event) {
+		const now = Date.now();
+		
+		// Verificar se está em cooldown
+		if (now - lastAnimationTime < cooldownDuration) {
+			return;
+		}
+
+		// Prevenir navegação padrão temporariamente
+		event.preventDefault();
+
+		// Atualizar tempo da última animação
+		lastAnimationTime = now;
+
+		// Ativar a animação
+		logoAnimationOverlay.classList.add("active");
+
+		// Depois da animação terminar, navegar para o início
+		setTimeout(() => {
+			logoAnimationOverlay.classList.remove("active");
+			window.location.hash = "#inicio";
+		}, 10000); // 10 segundos da animação
+	}
+
+	brandLink.addEventListener("click", playLogoAnimation);
 }
 
 function configurarModalEquipe() {
