@@ -1,8 +1,5 @@
 
-// ============================================
-// SISTEMA DE UNDO POR MODAL
-// ============================================
-
+// Sistema Simples de Undo por Modal
 const modalStacks = {}; // Pilha de estados para cada modal
 
 function setupModalUndo(modalId) {
@@ -11,15 +8,29 @@ function setupModalUndo(modalId) {
 	}
 	
 	const modal = document.getElementById(modalId);
-	if (!modal) return;
+	if (!modal) {
+		console.log(`Modal ${modalId} não encontrado`);
+		return;
+	}
 	
 	const undoBtn = modal.querySelector('.modal__undo');
-	if (!undoBtn) return;
+	if (!undoBtn) {
+		console.log(`Botão undo não encontrado em ${modalId}`);
+		return;
+	}
+	
+	console.log(`Setup undo para ${modalId} OK`);
 	
 	undoBtn.addEventListener('click', () => {
-		if (modalStacks[modalId].length === 0) return;
+		console.log(`Undo clicado em ${modalId}. Stack size: ${modalStacks[modalId].length}`);
+		
+		if (modalStacks[modalId].length === 0) {
+			console.log('Nenhuma ação para desfazer');
+			return;
+		}
 		
 		const previousState = modalStacks[modalId].pop();
+		console.log('Executando estado anterior');
 		if (typeof previousState === 'function') {
 			previousState();
 		}
@@ -30,37 +41,57 @@ function pushModalState(modalId, stateFunction) {
 	if (!modalStacks[modalId]) {
 		modalStacks[modalId] = [];
 	}
+	console.log(`Push para ${modalId}. Novo tamanho: ${modalStacks[modalId].length + 1}`);
 	modalStacks[modalId].push(stateFunction);
 }
 
+// Inicializar botões de undo em todos os modais
 function initializeModalUndoButtons() {
+	// Lista de todos os IDs de modais
 	const modalIds = [
-		'info-modal', 'o-que-teremos-hoje-modal', 'informacoes-uteis-modal',
-		'eventos-modal', 'eventos-detalhes-modal', 'ia-github-modal',
-		'ia-github-detalhes-modal', 'sobre-site-modal', 'sobre-site-detalhes-modal',
-		'areas-modal', 'ciesa-modal', 'latij-modal', 'chrono-modal'
+		'info-modal',
+		'o-que-teremos-hoje-modal',
+		'informacoes-uteis-modal',
+		'eventos-modal',
+		'eventos-detalhes-modal',
+		'ia-github-modal',
+		'ia-github-detalhes-modal',
+		'sobre-site-modal',
+		'sobre-site-detalhes-modal',
+		'areas-modal',
+		'ciesa-modal',
+		'latij-modal',
+		'chrono-modal'
 	];
 	
-	modalIds.forEach(modalId => setupModalUndo(modalId));
+	modalIds.forEach(modalId => {
+		setupModalUndo(modalId);
+	});
 }
 
-// ============================================
-// PROTEÇÃO CONTRA SELEÇÃO
-// ============================================
+// Chamar quando o documento estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+	initializeModalUndoButtons();
+});
 
+// Bloquear Ctrl+A
 document.addEventListener('keydown', (e) => {
 	if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
 		e.preventDefault();
+		return false;
 	}
 });
 
+// Bloquear seleção de texto
 document.addEventListener('selectstart', (e) => {
 	e.preventDefault();
+	return false;
 });
 
-// ============================================
-// DADOS ESTRUTURADOS
-// ============================================
+const textos = {
+	descricao_latij:
+		"A LIGA LATIJ é uma iniciativa estudantil voltada para eventos educacionais e culturais. Aqui você encontra oportunidades para aprender com projetos, participar de atividades e construir conexões com outros alunos e professores.",
+};
 
 const infosUteis = {
 	biblioteca: {
@@ -86,7 +117,7 @@ const infosUteis = {
 					<div class="notas-timeline">
 						<div class="timeline-item timeline-item--npc1">
 							<div class="timeline-item__header">
-								<span class="timeline-item__period">1º Período</span>
+								<span class="timeline-item__period">Primeira Parte</span>
 								<span class="timeline-item__badge">NPC 1</span>
 							</div>
 							<div class="timeline-item__content">
@@ -97,13 +128,13 @@ const infosUteis = {
 
 						<div class="timeline-divider">
 							<div class="timeline-divider__line"></div>
-							<span class="timeline-divider__text">Férias</span>
+							<span class="timeline-divider__text">Férias/Descanso</span>
 							<div class="timeline-divider__line"></div>
 						</div>
 
 						<div class="timeline-item timeline-item--npc2">
 							<div class="timeline-item__header">
-								<span class="timeline-item__period">2º Período</span>
+								<span class="timeline-item__period">Segunda Parte</span>
 								<span class="timeline-item__badge">NPC 2</span>
 							</div>
 							<div class="timeline-item__content">
@@ -709,12 +740,14 @@ const sobreSiteData = {
 
 function aplicarTextos() {
 	const elementos = document.querySelectorAll("[data-text]");
-	elementos.forEach(elemento => {
+	for (const elemento of elementos) {
 		const chave = elemento.getAttribute("data-text");
-		if (chave && textos[chave] && typeof textos[chave] === "string") {
-			elemento.textContent = textos[chave];
+		if (!chave) continue;
+		const valor = textos[chave];
+		if (typeof valor === "string") {
+			elemento.textContent = valor;
 		}
-	});
+	}
 }
 
 function configurarNavegacao() {
@@ -722,14 +755,7 @@ function configurarNavegacao() {
 	let scrollTimeout;
 
 	function aplicarOverlayPorHash(hash) {
-    if (hash === "#quem-somos" || hash === "#sobre-ciesa" || hash === "#informacoes-uteis" || hash === "#eventos" || hash === "#ia-github" || hash === "#criacao-site") {
-			document.body.classList.add("bg-dimmed");
-			return;
-		}
-
-		if (hash === "#inicio" || hash === "" || hash === "#") {
-			document.body.classList.remove("bg-dimmed");
-		}
+    // Overlay escuro removido
 	}
 
 	function atualizarNavAtivo() {
@@ -881,9 +907,8 @@ function configurarModalLATIJ() {
 	const modal = document.getElementById("latij-modal");
 	const logo = document.querySelector(".liga-card--latij");
 	if (!modal || !logo) return;
-	const closeBtn = modal.querySelector(".modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
@@ -898,7 +923,6 @@ function configurarModalLATIJ() {
 	}
 
 	logo.addEventListener("click", abrirModal);
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
@@ -913,9 +937,8 @@ function configurarModalChrono() {
 	const modal = document.getElementById("chrono-modal");
 	const logo = document.querySelector(".liga-card--chrono");
 	if (!modal || !logo) return;
-	const closeBtn = modal.querySelector(".modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
@@ -929,7 +952,6 @@ function configurarModalChrono() {
 	}
 
 	logo.addEventListener("click", abrirModal);
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
@@ -976,12 +998,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 });
 
-// ============================================
-// INICIALIZAÇÃO PRINCIPAL
-// ============================================
-
 document.addEventListener("DOMContentLoaded", () => {
-	initializeModalUndoButtons();
 	aplicarTextos();
 	configurarNavegacao();
 	configurarMenuMobile();
@@ -991,6 +1008,21 @@ document.addEventListener("DOMContentLoaded", () => {
 	configurarModalCIESA();
 	configurarModalInformacoesUteis();
 	configurarModalInfos();
+	
+	// Configurar botão de undo
+	const undoBtn = document.getElementById("undo-btn");
+	if (undoBtn) {
+		undoBtn.addEventListener("click", undoLastAction);
+	}
+	
+	// Bloquear Ctrl+Z também (se preferir usar apenas o botão)
+	// document.addEventListener("keydown", (e) => {
+	//   if ((e.ctrlKey || e.metaKey) && e.key === "z") {
+	//     e.preventDefault();
+	//     undoLastAction();
+	//   }
+	// });
+
 	configurarModalEventos();
 	configurarModalAreas();
 	configurarModalOQueTeremosHoje();
@@ -1105,9 +1137,8 @@ function configurarModalCIESA() {
 	const imageTrigger = document.getElementById("ciesa-image-trigger");
 	const modalImage = document.getElementById("ciesa-modal-image");
 	if (!modal || !imageTrigger || !modalImage) return;
-	const closeBtn = modal.querySelector(".ciesa-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	// Array com as imagens (adicione mais URLs conforme necessário)
 	const imagens = [
@@ -1164,7 +1195,6 @@ function configurarModalCIESA() {
 	}
 
 	imageTrigger.addEventListener("click", abrirModal);
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
@@ -1179,9 +1209,8 @@ function configurarModalInformacoesUteis() {
 	const modal = document.getElementById("informacoes-uteis-modal");
 	const trigger = document.getElementById("informacoes-uteis-trigger");
 	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".informacoes-uteis-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	const infoItems = modal.querySelectorAll(".info-item");
 	const infoModal = document.getElementById("info-modal");
@@ -1204,7 +1233,6 @@ function configurarModalInformacoesUteis() {
 	}
 
 	trigger.addEventListener("click", abrirModal);
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Quando clicar em um dos cards de informações dentro do modal
@@ -1303,11 +1331,10 @@ function configurarModalInfos() {
 	const modal = document.getElementById("info-modal");
 	const infoItems = document.querySelectorAll(".info-item");
 	if (!modal || infoItems.length === 0) return;
-	const closeBtn = modal.querySelector(".info-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
 	const modalTitle = modal.querySelector(".info-modal__title");
 	const modalDescription = modal.querySelector(".info-modal__description");
-	if (!closeBtn || !overlay || !modalTitle || !modalDescription) return;
+	if (!overlay || !modalTitle || !modalDescription) return;
 
 	function abrirModal(info) {
 		const dados = infosUteis[info];
@@ -1363,7 +1390,6 @@ function configurarModalInfos() {
 		});
 	});
 
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
@@ -1374,55 +1400,12 @@ function configurarModalInfos() {
 	});
 }
 
-function configurarModalEventos() {
-	const modal = document.getElementById("eventos-modal");
-	const trigger = document.getElementById("eventos-trigger");
-	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".eventos-modal__close");
-	const overlay = modal.querySelector(".modal__overlay");
-	const eventosItems = modal.querySelectorAll(".eventos-item");
-	if (!closeBtn || !overlay) return;
-
-	function abrirModal() {
-		modal.classList.add("modal--open");
-		document.body.style.overflow = "hidden";
-	}
-
-	function fecharModal() {
-		modal.classList.remove("modal--open");
-		document.body.style.overflow = "";
-	}
-
-	trigger.addEventListener("click", abrirModal);
-	trigger.addEventListener("keydown", (event) => {
-		if (event.key === "Enter" || event.key === " ") {
-			event.preventDefault();
-			abrirModal();
-		}
-	});
-
-	closeBtn.addEventListener("click", fecharModal);
-	overlay.addEventListener("click", fecharModal);
-
-	// Adicionar eventos aos cards
-	eventosItems.forEach((item) => {
-		item.addEventListener("click", fecharModal);
-		item.addEventListener("keydown", (event) => {
-			if (event.key === "Enter" || event.key === " ") {
-				event.preventDefault();
-				fecharModal();
-			}
-		});
-	});
-}
-
 function configurarModalOQueTeremosHoje() {
 	const modal = document.getElementById("o-que-teremos-hoje-modal");
 	const trigger = document.getElementById("o-que-teremos-hoje-trigger");
 	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".o-que-teremos-hoje-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
@@ -1435,7 +1418,6 @@ function configurarModalOQueTeremosHoje() {
 	}
 
 	trigger.addEventListener("click", abrirModal);
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Fechar com ESC
@@ -1450,17 +1432,15 @@ function configurarModalEventos() {
 	const modal = document.getElementById("eventos-modal");
 	const trigger = document.getElementById("eventos-trigger");
 	const detalhesModal = document.getElementById("eventos-detalhes-modal");
-	const detalhesCloseBtn = detalhesModal?.querySelector(".eventos-detalhes-modal__close");
 	const detalhesOverlay = detalhesModal?.querySelector(".modal__overlay");
 	const detalhesTitle = document.getElementById("eventos-detalhes-title");
 	const detalhesSubtitle = document.getElementById("eventos-detalhes-subtitle");
 	const detalhesList = document.getElementById("eventos-detalhes-lista");
 	
 	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".eventos-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
 	const eventosItems = modal.querySelectorAll(".eventos-item");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	const detalhesMeta = {
 		ciesa: {
@@ -1630,11 +1610,9 @@ function configurarModalEventos() {
 		}
 	});
 
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 	
-	if (detalhesCloseBtn && detalhesOverlay) {
-		detalhesCloseBtn.addEventListener("click", fecharDetalhes);
+	if (detalhesOverlay) {
 		detalhesOverlay.addEventListener("click", fecharDetalhes);
 	}
 
@@ -1670,9 +1648,8 @@ function configurarModalAreas() {
 	const modal = document.getElementById("areas-modal");
 	const trigger = document.getElementById("areas-trigger");
 	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".areas-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	const areaItems = modal.querySelectorAll(".area-modal-item");
 
@@ -1694,7 +1671,6 @@ function configurarModalAreas() {
 		}
 	});
 
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Adicionar evento para cards com vídeos
@@ -1727,17 +1703,15 @@ function configurarModalIAGithub() {
 	const modal = document.getElementById("ia-github-modal");
 	const trigger = document.getElementById("ia-github-trigger");
 	const detalhesModal = document.getElementById("ia-github-detalhes-modal");
-	const detalhesCloseBtn = detalhesModal?.querySelector(".ia-github-detalhes-modal__close");
 	const detalhesOverlay = detalhesModal?.querySelector(".modal__overlay");
 	const detalhesTitle = document.getElementById("ia-github-detalhes-title");
 	const detalhesSubtitle = document.getElementById("ia-github-detalhes-subtitle");
 	const detalhesList = document.getElementById("ia-github-detalhes-lista");
 	
 	if (!modal || !trigger) return;
-	const closeBtn = modal.querySelector(".ia-github-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
 	const iaGithubItems = modal.querySelectorAll(".ia-github-item");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	const detalhesMeta = {
 		ia: {
@@ -1814,11 +1788,9 @@ function configurarModalIAGithub() {
 		}
 	});
 
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 	
-	if (detalhesCloseBtn && detalhesOverlay) {
-		detalhesCloseBtn.addEventListener("click", fecharDetalhes);
+	if (detalhesOverlay) {
 		detalhesOverlay.addEventListener("click", fecharDetalhes);
 	}
 
@@ -1855,9 +1827,8 @@ function configurarModalEquipe() {
 	const equipeModal = document.getElementById("equipe-modal");
 	if (!equipeLink || !equipeModal) return;
 
-	const closeBtn = equipeModal.querySelector(".modal__close");
 	const overlay = equipeModal.querySelector(".modal__overlay");
-	if (!closeBtn || !overlay) return;
+	if (!overlay) return;
 
 	function abrirEquipeModal(event) {
 		if (event) event.preventDefault();
@@ -1880,7 +1851,6 @@ function configurarModalEquipe() {
 		}
 	});
 
-	closeBtn.addEventListener("click", fecharEquipeModal);
 	overlay.addEventListener("click", fecharEquipeModal);
 
 	// Fechar com ESC
@@ -1898,17 +1868,15 @@ function configurarModalSobreSite() {
 	
 	if (!trigger || !modal || !detalhesModal) return;
 
-	const closeBtn = modal.querySelector(".sobre-site-modal__close");
 	const overlay = modal.querySelector(".modal__overlay");
 	const items = modal.querySelectorAll(".sobre-site-item");
 	
-	const detalhesCloseBtn = detalhesModal.querySelector(".sobre-site-detalhes-modal__close");
 	const detalhesOverlay = detalhesModal.querySelector(".modal__overlay");
 	const detalhesTitle = detalhesModal.querySelector("#sobre-site-detalhes-title");
 	const detalhesIntro = detalhesModal.querySelector("#sobre-site-detalhes-intro");
 	const detalhesList = detalhesModal.querySelector("#sobre-site-detalhes-lista");
 
-	if (!closeBtn || !overlay || !detalhesCloseBtn) return;
+	if (!overlay || !detalhesOverlay) return;
 
 	function abrirModal() {
 		modal.classList.add("modal--open");
@@ -1989,11 +1957,9 @@ function configurarModalSobreSite() {
 	});
 
 	// Listeners para fechar modal principal
-	closeBtn.addEventListener("click", fecharModal);
 	overlay.addEventListener("click", fecharModal);
 
 	// Listeners para fechar modal de detalhes
-	detalhesCloseBtn.addEventListener("click", fecharDetalhes);
 	detalhesOverlay.addEventListener("click", fecharDetalhes);
 
 	// Fechar com ESC
