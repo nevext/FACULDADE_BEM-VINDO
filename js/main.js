@@ -1,70 +1,36 @@
 
-// Sistema de Histórico de Ações (Undo)
-const actionHistory = [];
-const maxHistorySize = 50;
+// Sistema Simples de Undo por Modal
+const modalStacks = {}; // Pilha de estados para cada modal
 
-// Histórico específico por modal
-const modalHistories = {};
-const modalStates = {}; // Estados salvos dos modais
-
-function addToHistory(action) {
-	actionHistory.push(action);
-	if (actionHistory.length > maxHistorySize) {
-		actionHistory.shift();
-	}
-}
-
-function addToModalHistory(modalId, action, state = null) {
-	if (!modalHistories[modalId]) {
-		modalHistories[modalId] = [];
-		modalStates[modalId] = [];
-	}
-	modalHistories[modalId].push(action);
-	modalStates[modalId].push(state);
-	
-	if (modalHistories[modalId].length > 20) {
-		modalHistories[modalId].shift();
-		modalStates[modalId].shift();
-	}
-}
-
-function undoLastAction() {
-	if (actionHistory.length === 0) {
-		alert('Nenhuma ação para desfazer');
-		return;
+function setupModalUndo(modalId) {
+	if (!modalStacks[modalId]) {
+		modalStacks[modalId] = [];
 	}
 	
-	const lastAction = actionHistory.pop();
-	console.log('Desfazendo ação:', lastAction);
+	const modal = document.getElementById(modalId);
+	if (!modal) return;
 	
-	// Recarrega a página para reverter ao estado anterior
-	window.location.reload();
-}
-
-function undoModalAction(modalId) {
-	if (!modalHistories[modalId] || modalHistories[modalId].length === 0) {
-		console.log('Nenhuma ação para desfazer neste modal');
-		return;
-	}
+	const undoBtn = modal.querySelector('.modal__undo');
+	if (!undoBtn) return;
 	
-	const lastAction = modalHistories[modalId].pop();
-	const lastState = modalStates[modalId].pop();
-	
-	console.log('Desfazendo ação do modal:', lastAction);
-	
-	// Se houver um estado anterior salvo, restaura
-	if (lastState && typeof lastState === 'function') {
-		lastState();
-	} else {
-		// Se não houver estado, fecha o modal
-		const modal = document.getElementById(modalId);
-		if (modal) {
-			const overlay = modal.querySelector('.modal__overlay');
-			if (overlay) {
-				overlay.click();
-			}
+	undoBtn.addEventListener('click', () => {
+		if (modalStacks[modalId].length === 0) {
+			console.log('Nenhuma ação para desfazer');
+			return;
 		}
+		
+		const previousState = modalStacks[modalId].pop();
+		if (typeof previousState === 'function') {
+			previousState();
+		}
+	});
+}
+
+function pushModalState(modalId, stateFunction) {
+	if (!modalStacks[modalId]) {
+		modalStacks[modalId] = [];
 	}
+	modalStacks[modalId].push(stateFunction);
 }
 
 // Inicializar botões de undo em todos os modais
@@ -87,16 +53,7 @@ function initializeModalUndoButtons() {
 	];
 	
 	modalIds.forEach(modalId => {
-		const modal = document.getElementById(modalId);
-		if (modal) {
-			const undoBtn = modal.querySelector('.modal__undo');
-			if (undoBtn) {
-				undoBtn.addEventListener('click', () => {
-					addToModalHistory(modalId, 'undo-clicked');
-					undoModalAction(modalId);
-				});
-			}
-		}
+		setupModalUndo(modalId);
 	});
 }
 
@@ -1283,9 +1240,12 @@ function configurarModalInformacoesUteis() {
 			const dados = infosUteis[info];
 			if (dados) {
 				// Salvar estado anterior (mostrar o modal de informações úteis novamente)
-				const returnToInfoModal = () => {
+				pushModalState("informacoes-uteis-modal", () => {
 					abrirModal();
-				};
+					if (infoModal) {
+						infoModal.classList.remove("modal--open");
+					}
+				});
 				
 				// Abre o modal individual
 				if (infoModal && infoModalTitle && infoModalDescription) {
@@ -1295,10 +1255,6 @@ function configurarModalInformacoesUteis() {
 					} else {
 						infoModalDescription.textContent = dados.descricao;
 					}
-					
-					// Registrar no histórico com a função de retorno
-					addToModalHistory("informacoes-uteis-modal", `clicked-${info}`, returnToInfoModal);
-					
 					infoModal.classList.add("modal--open");
 					document.body.style.overflow = "hidden";
 				}
@@ -1573,14 +1529,11 @@ function configurarModalEventos() {
 		detalhesSubtitle.textContent = meta.subtitulo;
 
 		// Salvar estado anterior (retornar para a lista de eventos)
-		const returnToEventosList = () => {
+		pushModalState("eventos-detalhes-modal", () => {
 			fecharDetalhes();
 			modal.classList.add("modal--open");
 			document.body.style.overflow = "hidden";
-		};
-		
-		// Registrar no histórico
-		addToModalHistory("eventos-detalhes-modal", `clicked-${tipo}`, returnToEventosList);
+		});
 
 		// Renderizar eventos
 		detalhesList.innerHTML = "";
@@ -1711,14 +1664,12 @@ function configurarModalEventos() {
 	eventosItems.forEach((item) => {
 		item.addEventListener("click", () => {
 			const tipo = item.getAttribute("data-eventos");
-			addToModalHistory("eventos-modal", `clicked-${tipo}`);
 			abrirDetalhesEventos(tipo);
 		});
 		item.addEventListener("keydown", (event) => {
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
 				const tipo = item.getAttribute("data-eventos");
-				addToModalHistory("eventos-modal", `clicked-${tipo}`);
 				abrirDetalhesEventos(tipo);
 			}
 		});
@@ -1846,14 +1797,11 @@ function configurarModalIAGithub() {
 		detalhesSubtitle.textContent = meta.subtitulo;
 
 		// Salvar estado anterior (retornar para a lista de IA & GitHub)
-		const returnToIaGithubList = () => {
+		pushModalState("ia-github-detalhes-modal", () => {
 			fecharDetalhes();
 			modal.classList.add("modal--open");
 			document.body.style.overflow = "hidden";
-		};
-		
-		// Registrar no histórico
-		addToModalHistory("ia-github-detalhes-modal", `clicked-${tipo}`, returnToIaGithubList);
+		});
 
 		// Renderizar conteúdo
 		detalhesList.innerHTML = "";
@@ -1895,14 +1843,12 @@ function configurarModalIAGithub() {
 	iaGithubItems.forEach((item) => {
 		item.addEventListener("click", () => {
 			const tipo = item.getAttribute("data-tipo");
-			addToModalHistory("ia-github-modal", `clicked-${tipo}`);
 			abrirDetalhes(tipo);
 		});
 		item.addEventListener("keydown", (event) => {
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
 				const tipo = item.getAttribute("data-tipo");
-				addToModalHistory("ia-github-modal", `clicked-${tipo}`);
 				abrirDetalhes(tipo);
 			}
 		});
@@ -2005,14 +1951,11 @@ function configurarModalSobreSite() {
 		detalhesIntro.textContent = data.intro;
 
 		// Salvar estado anterior (retornar para a lista de Sobre o Site)
-		const returnToSobreSiteList = () => {
+		pushModalState("sobre-site-detalhes-modal", () => {
 			fecharDetalhes();
 			modal.classList.add("modal--open");
 			document.body.style.overflow = "hidden";
-		};
-		
-		// Registrar no histórico
-		addToModalHistory("sobre-site-detalhes-modal", `clicked-${tipo}`, returnToSobreSiteList);
+		});
 
 		// Renderizar conteúdo
 		detalhesList.innerHTML = "";
@@ -2045,7 +1988,6 @@ function configurarModalSobreSite() {
 	items.forEach((item) => {
 		item.addEventListener("click", () => {
 			const tipo = item.getAttribute("data-tipo");
-			addToModalHistory("sobre-site-modal", `clicked-${tipo}`);
 			abrirDetalhes(tipo);
 		});
 
@@ -2053,7 +1995,6 @@ function configurarModalSobreSite() {
 			if (event.key === "Enter" || event.key === " ") {
 				event.preventDefault();
 				const tipo = item.getAttribute("data-tipo");
-				addToModalHistory("sobre-site-modal", `clicked-${tipo}`);
 				abrirDetalhes(tipo);
 			}
 		});
