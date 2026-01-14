@@ -651,7 +651,7 @@ const sobreSiteData = {
 			},
 			{
 				titulo: "💡 Liquid Pink - Referência Principal",
-				descricao: "Uma das principais referências foi o site Liquid Pink, que apresentou ideias interessantes e serviu como base para reflexão. Este projeto foi fundamental para compreender estruturas de navegação, padrões de design e abordagens criativas que influenciaram decisões estéticas e funcionais."
+				descricao: "Uma das principais referências foi o site <a href='https://www.liquid-pink.com/' target='_blank' rel='noopener noreferrer'>Liquid Pink</a>, que apresentou ideias interessantes e serviu como base para reflexão. Este projeto foi fundamental para compreender estruturas de navegação, padrões de design e abordagens criativas que influenciaram decisões estéticas e funcionais."
 			},
 			{
 				titulo: "🎯 Buscando Inspiração como Ponto de Partida",
