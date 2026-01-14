@@ -120,8 +120,9 @@ body.bg-dimmed::before {
 
 .brand__logo {
   height: 60px;
-  width: auto;
+  width: 120px;
   display: block;
+  object-fit: contain;
   transform: translateX(15px);
   transition: transform 0.3s ease;
   cursor: pointer;
