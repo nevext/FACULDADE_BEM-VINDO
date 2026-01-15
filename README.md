@@ -1,45 +1,58 @@
-This page is intended to be an introductory guide for new college students.
+# CIESA - Welcome Guide
 
-Aiming to be as simple as possible to facilitate reading and make the invitation easier for new students.
+An introductory website for new students at CIESA that consolidates important information about the institution, events, areas of expertise, and useful resources in one place, making student integration easier.
 
-Using only HTML and CSS, and maybe a little JS? LOL maybe
+---
 
-Shirt () + hardcover planner + special message of the day
+## Technologies Used
+- **HTML5** – Semantic page structure  
+- **CSS3** – Styling with CSS variables, responsive design  
+- **JavaScript (Vanilla)** – Interactivity with modal system and undo functionality  
+- **Google Fonts** – Typography (Playfair Display, Montserrat)  
 
-Shirt - talk - no
+---
 
-Comment on introduction to GIT
+## Installation
+1. Clone or download this repository.  
+2. Navigate to the project folder.  
+3. Open `index.html` directly in your browser (no server required).  
 
-Talk about grades and how they work
+---
 
-Talk about Jana
+## Usage
+- Open `index.html` in any web browser.  
+- Navigate through the sections: **Home, About Us, About CIESA, Useful Information, Areas of Expertise, Events, AI & GitHub**.  
+- Interact with modals containing additional information.  
+- Use the **undo button** to return to previous states.  
 
-Student achievements
+---
 
-Past events
+## Contribution
+Contributions are welcome.  
+To contribute:  
+1. Fork the repository.  
+2. Create a branch with your changes.  
+3. Submit a pull request describing your modifications.  
 
-Talk about labs (warn about computer use)
+Recommended practices:  
+- Follow consistent coding standards.  
+- Document relevant changes.  
+- Test before submitting contributions.  
 
-Fingers test (first and second time)
+---
 
-Event occurs first and second time (last week of January)
+## License
+This project is licensed under the **MIT License**.  
+You are free to use, modify, and distribute it, provided that proper credit is given to the author.  
 
-Simple coffee break (which break)
+---
 
-Institutional email - talk (everything)
+## Author
+Created by **David Neves (Nevext)**  
+- GitHub: [@nevext](https://github.com/nevext)  
+- Contact: institutional email recommended (e.g., yourname@ciesa.edu.br)  
 
-Introduction to Artificial Intelligence - talk
+---
 
-Introduction to the curriculum
-
-Remember the guests
-
-Youtube.com/jhemerson
-
-Important article
-
-Design - draw bglh event
-
-Effect CIESA LOGO
-
-Best footer
+## References
+- Related content: **Liquid Pink**  
