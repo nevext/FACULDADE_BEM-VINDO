@@ -3,6 +3,7 @@
 An introductory website for new students at CIESA that consolidates important information about the institution, events, areas of expertise, and useful resources in one place, making student integration easier.
 
 ---
+(maybe refrash page bruuh)
 
 ## Technologies Used
 - **HTML5** – Semantic page structure  
